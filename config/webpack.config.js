@@ -272,9 +272,10 @@ module.exports = function(webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
+        '@': paths.appSrc
       },
       plugins: [
-        // Adds support for installing with Plug'n'Play, leading to faster installs and adding
+        // Adds support for installing with Pluyg'n'Play, leading to faster installs and adding
         // guards against forgotten dependencies and such.
         PnpWebpackPlugin,
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -290,6 +291,7 @@ module.exports = function(webpackEnv) {
         // Also related to Plug'n'Play, but this time it tells Webpack to load its loaders
         // from the current package.
         PnpWebpackPlugin.moduleLoader(module),
+        
       ],
     },
     module: {
@@ -401,6 +403,7 @@ module.exports = function(webpackEnv) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
+                localIdentName:'[path][name]-[local]-[hash:5]'
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -417,6 +420,7 @@ module.exports = function(webpackEnv) {
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
+                // localIdentName:'[path][name]-[local]-[hash:5]'
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -429,6 +433,7 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: true,
                 },
                 'sass-loader'
               ),

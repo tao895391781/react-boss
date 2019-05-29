@@ -1,0 +1,27 @@
+.app{
+    background: url('../static/img/login.jpg');
+    background-size: 100% 100%;
+    h3{
+        color:#fff;
+        text-align: center;
+        font-size: .25rem;
+        line-height: 1rem;
+    }
+}
+.form{
+    margin-top: .4rem;
+}
+.button_type{
+    height:1rem;
+    width:60%;
+    margin-top: .6rem;  
+    font-size: .3rem;
+    line-height: 1rem;
+    margin-left: 20%;
+}
+.register{
+    color:#fff;
+    font-size: .18rem;
+    text-align: center;
+    text-decoration: underline;
+}

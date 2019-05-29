@@ -81,7 +81,14 @@ module.exports = function(proxy, allowedHost) {
       disableDotRule: true,
     },
     public: allowedHost,
-    proxy,
+    proxy:{
+      '/register': {
+        target: 'http://192.168.1.108:4000',
+        pathRewrite: {"^/register": ""},// 将/api重写为""空字符串
+        changeOrigin: true,     // target是域名的话，需要这个参数，
+        secure: false,          // 设置支持https协议的代理
+      }
+    },
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
