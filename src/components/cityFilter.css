@@ -1,0 +1,11 @@
+.navbar .am-navbar-light{
+    color:#000;  
+}
+.navbar .am-navbar-left .am-icon-md{
+    width:.3rem;
+    height:.3rem;
+    color:#333;
+}
+.navbar .am-navbar-right{
+    color:#108ee9;
+}

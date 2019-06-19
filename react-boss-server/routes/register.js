@@ -4,16 +4,15 @@
  * @Author: tll
  * @Date: 2019-05-26 15:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-29 16:17:49
+ * @LastEditTime: 2019-05-31 10:52:06
  */
 const express = require('express');
 const router = express.Router();
 const model = require('../mongo-model/model');
+const {md5Pwd} = require('../util')
 const User = model.getModel('user')
 router.post('/', (req, res, next)=>{
-  console.log(req.body);
   const {username,pwd,type} = req.body;
-  console.log('查询条件',username);
   User.find({username:username},(err,doc)=>{
     if(err) throw new Error(err);
     console.log('doc',doc);
@@ -25,7 +24,7 @@ router.post('/', (req, res, next)=>{
        })
     }else{
       // 用户不存在，插入该数据
-      User.create({username, pwd,type},(err,data)=>{
+      User.create({username,pwd:md5Pwd(pwd),type},(err,data)=>{
         if(err) return err;
         console.log('插入用户成功',data);
         res.json({

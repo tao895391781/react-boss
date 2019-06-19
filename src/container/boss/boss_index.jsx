@@ -4,10 +4,10 @@
  * @Author: tll
  * @Date: 2019-05-16 11:32:25
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-23 16:13:34
+ * @LastEditTime: 2019-06-14 16:01:09
  */
 import React from 'react'
-import {Switch,Route} from 'react-router-dom'
+import {Switch,Route,Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {navBarText,showBack} from '@/redux/action'
 import Footer from '@/components/footer'
@@ -58,9 +58,11 @@ class Boss_index extends React.PureComponent {
     componentDidMount(){
         console.log('boss_index渲染');
         console.log(this.props);
-        const {navBarText,showBack} = this.props;
-        navBarText('职位');
-        showBack(false)
+        const {showBack} = this.props;
+        showBack(false);
+    }
+    componentWillUnmount(){
+        console.log('boss_index卸载'); 
     }
     /* 控制导航栏的文字和分返回按钮 */
     setNavBarText(text){
@@ -78,14 +80,15 @@ class Boss_index extends React.PureComponent {
                     <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
                 </header>
                 <div className = 'flex-container'> 
-                        <Switch>
-                            {
-                                navlist.map((item,index)=>(
-                                        <Route path = {item.link} component = {item.component} key={index} />
-                                    ) 
-                                )  
-                            }
-                        </Switch>
+                    <Switch>
+                        {
+                            navlist.map((item,index)=>(
+                                <Route path = {item.link} component = {item.component} key={index} />
+                                ) 
+                            )  
+                        }
+                        <Redirect from='/boss' to='/boss/job'></Redirect>
+                    </Switch>  
                 </div>
                 <div className = {bosscss.footer}>
                     <Footer navlist = {navlist} setNavBarText = {(text)=>this.setNavBarText(text)}></Footer>
