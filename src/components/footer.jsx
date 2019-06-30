@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 11:20:58
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-23 16:07:37
+ * @LastEditTime: 2019-06-29 14:19:51
  */
 import React from 'react'
 import footercss from './footer.scss'
@@ -44,5 +44,4 @@ class Footer extends React.Component {
         } 
     }
 }
-
 export default withRouter(Footer)

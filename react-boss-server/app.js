@@ -9,6 +9,10 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login')
 const uploadjoblistRouter = require('./routes/uploadjoblist')
 const getjoblistRouter = require('./routes/getjoblist')
+const setJobareaRouter = require('./routes/setJobarea');
+const writeInfoRouter = require('./routes/writeinfo')
+const getinfoRouter = require('./routes/getinfo')
+const getcompanyRouter = require('./routes/search-company')
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,7 +23,7 @@ app.all("*",function(req,res,next){
     //设置允许跨域的域名，*代表允许任意域名跨域 
     console.log('设置跨域');
     // http://127.0.0.1:8080
-    res.header("Access-Control-Allow-Origin","http://192.168.1.108:3000"); 
+    res.header("Access-Control-Allow-Origin","http://192.168.1.112:3000"); 
     //允许的header类型 
     res.header("Access-Control-Allow-Headers","content-type");
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -36,7 +40,10 @@ app.use('/login',loginRouter)
 app.use('/users', usersRouter);
 app.use('/uploadjob',uploadjoblistRouter)
 app.use('/getjob',getjoblistRouter)
-
+app.use('/setJobarea',setJobareaRouter)
+app.use('/writeinfo',writeInfoRouter)
+app.use('/getinfo',getinfoRouter)
+app.use('/getcompany',getcompanyRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

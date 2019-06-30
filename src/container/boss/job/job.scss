@@ -59,8 +59,16 @@
                     position: relative;
                     background: #f2f2f2;
                     color:#555;
+                    &:last-child{
+                        width:auto;
+                    }
                     i{
                         font-size: .14rem;
+                    }
+                    &>div{
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
                     }
                 }
             }
@@ -82,6 +90,4 @@
     height:100%;
     background: #fff;
     z-index: 999;
-    transform: translateY(0);
-    transition:transform 300ms;
 }

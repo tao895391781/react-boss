@@ -2,12 +2,12 @@ import React from 'react'
 import appcss from '@/container/app.scss'
 import axios from 'axios'
 import {Toast} from 'antd-mobile'
-import {saveUserInfo} from '@/redux/action'
+import {saveUserInfo,asyncGetPersonSet} from '@/redux/action'
 import Login from '@/components/login'
 import {register,login} from '@/api'
 import {connect} from 'react-redux'
 axios.defaults.withCredentials = true;
-@connect(state=>({state}),{saveUserInfo})
+@connect(state=>({state}),{saveUserInfo,asyncGetPersonSet})
 class App extends React.Component{
     constructor(){
         super();
@@ -138,15 +138,14 @@ class App extends React.Component{
                 console.log(user);
                 if(this.state.showRegister){
                     axios.post(register,user).then(res=>{
-                        console.log(res);
+                        console.log(res.data);
                         if(res.data.code === 1){
                             Toast.success('注册成功,去登录...', 2,()=>{
                                 this.setState({
                                     showRegister:false,
                                     pwd:''
                                 });
-                            });
-                            
+                            }); 
                         }else{
                             Toast.fail('该用户已存在', 1);
                         }
@@ -156,15 +155,23 @@ class App extends React.Component{
                     })
                 }else{
                     // 登录
-                    const saveUserInfo_= this.props.saveUserInfo;
                     axios.post(login,user).then(res=>{
-                        console.log(res);
+                        console.log(res.data);
                         if(res.data.code === 1){
                             Toast.loading('登录成功',0);
+                            //localStorage保存用户名和密码
+                            localStorage.setItem('loginInfo',JSON.stringify({username,pwd}))
                             this.timer = setTimeout(()=>{
                                 Toast.hide();
+                                const saveUserInfo_= this.props.saveUserInfo;
+                                // 保存登录信息
                                 saveUserInfo_(res.data.info);
-                                this.props.history.replace('/boss') 
+                                if(!res.data.info.name){
+                                    //未填写用户信息的去信息页
+                                    this.props.history.replace({pathname:'/info',state:{from:'login'}});
+                                }else{
+                                    this.props.history.replace('/boss');
+                                }    
                             },1000)
                         }else{
                             switch(res.data.status){
@@ -178,6 +185,7 @@ class App extends React.Component{
                                     Toast.fail('用户不存在',1.5);
                                         break;
                                     default:
+                                    Toast.fail('未知错误',1.5);
                                         return;   
                             }
                         }
@@ -185,10 +193,15 @@ class App extends React.Component{
                 } 
         }
     }
-       
-
     componentDidMount(){
         console.log(this.props)
+        ;if(localStorage.getItem('loginInfo')){
+            let {username,pwd} = JSON.parse(localStorage.getItem('loginInfo'));
+            this.setState({
+                username,
+                pwd
+            })
+        }
     }
     componentWillUnmount(){
         clearTimeout(this.timer);

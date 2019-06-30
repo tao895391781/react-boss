@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-16 11:32:25
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-14 16:01:09
+ * @LastEditTime: 2019-06-29 15:31:59
  */
 import React from 'react'
 import {Switch,Route,Redirect} from 'react-router-dom'
@@ -57,6 +57,12 @@ class Boss_index extends React.PureComponent {
     /* 组件挂在完之后执行的初始化 */
     componentDidMount(){
         console.log('boss_index渲染');
+        console.log(document.cookie);
+        // 未登录
+        if(!document.cookie){
+           this.props.history.replace('/login') 
+           return;
+        }
         console.log(this.props);
         const {showBack} = this.props;
         showBack(false);
@@ -80,10 +86,12 @@ class Boss_index extends React.PureComponent {
                     <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
                 </header>
                 <div className = 'flex-container'> 
+                {/* <div style={{position:'fixed',left:0,top:0,zIndex:1000,width:'100%',height:'100%',backgroundColor:'red'}}>
+                </div> */}
                     <Switch>
                         {
                             navlist.map((item,index)=>(
-                                <Route path = {item.link} component = {item.component} key={index} />
+                                <Route path = {item.link}  exact component = {item.component} key={index} />
                                 ) 
                             )  
                         }

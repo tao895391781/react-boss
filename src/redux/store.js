@@ -1,4 +1,4 @@
-import {createStore,applyMiddleware,compose} from 'redux'
+import {createStore,applyMiddleware} from 'redux'
 import reducers from './reducers'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
@@ -12,19 +12,9 @@ const persistConfig = {
     stateReconciler:autoMergeLevel2
 };
 const myPersistReducer = persistReducer(persistConfig,reducers);
-const reduxTools =  window.devToolsExtension ? window.devToolsExtension():()=>{}
-
-
-const composeEnhancers = composeWithDevTools({
-    // options like actionSanitizer, stateSanitizer
-  });
+const composeEnhancers = composeWithDevTools({});
   const store = createStore(myPersistReducer, composeEnhancers(
     applyMiddleware(thunk),
-    // other store enhancers if any
   ));
-// const store = createStore(
-//     myPersistReducer,
-//     compose(applyMiddleware(thunk), reduxTools),
-//     )
 export const persistor = persistStore(store)
 export default store;

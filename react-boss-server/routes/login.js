@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-29 16:17:18
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-31 16:58:34
+ * @LastEditTime: 2019-06-30 13:56:13
  */
 const express = require('express');
 const router = express.Router();
@@ -21,15 +21,14 @@ router.post('/',(req,res,next)=>{
             console.log(md5Pwd(pwd) === doc.pwd);
             if(md5Pwd(pwd) === doc.pwd){
                 if(type === doc.type){
+                    
                     res.cookie('userid',doc._id)
                     return res.json({
                         message:'登录成功',
                         status:'success',
                         code:1,
                         info:{
-                            username,
-                            _id:doc._id,
-                            type,
+                          ...doc['_doc']
                         }
                     });
                 }else{

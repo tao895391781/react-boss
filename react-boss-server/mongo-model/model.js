@@ -10,7 +10,19 @@ const models = {
         username:{type:Number,require:true},
         pwd:{type:String,require:true},
         type:{type:String,require:true},
-        age:{type:Number,require:false}
+
+        name:{type:String,require:true},
+        headImg:{type:String,require:true},
+        sex:{type:String,require:true},
+        workTime:{type:String,require:true},
+        wxNum:{type:String,require:true},
+        birth:{type:String,require:true},
+        myAdvantage:{type:String,require:true},
+
+        company:{type:String,require:true},
+        myJob:{type:String,require:true},
+        myEmail:{type:String,require:true},
+
     },
     job:{       
         name: {type:String,require:true},
@@ -21,6 +33,10 @@ const models = {
         person: {type:String,require:true},
         personDesc: {type:String,require:true},
         headImg: {type:String,require:true},
+    },
+    company:{
+        name:{type:String,require:true},
+        companyId:{type:Number,require:true}
     }
 }
 for(let m in models){

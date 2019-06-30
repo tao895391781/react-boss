@@ -103,6 +103,7 @@ module.exports = function(webpackEnv) {
             postcssNormalize(),
           ],
           sourceMap: isEnvProduction && shouldUseSourceMap,
+          localIdentName:'[path]-[name]-[local]-[hash:base64:6]'
         },
       },
     ].filter(Boolean);
@@ -111,6 +112,7 @@ module.exports = function(webpackEnv) {
         loader: require.resolve(preProcessor),
         options: {
           sourceMap: isEnvProduction && shouldUseSourceMap,
+          localIdentName:'[path]-[name]-[local]-[hash:base64:6]'
         },
       });
     }
@@ -403,7 +405,6 @@ module.exports = function(webpackEnv) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
-                localIdentName:'[path][name]-[local]-[hash:5]'
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -420,7 +421,6 @@ module.exports = function(webpackEnv) {
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
-                // localIdentName:'[path][name]-[local]-[hash:5]'
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -434,6 +434,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
+                  localIdentName:'[path][name]-[local]-[hash:5]'
                 },
                 'sass-loader'
               ),

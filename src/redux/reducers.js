@@ -4,11 +4,11 @@
  * @Author: tll
  * @Date: 2019-05-22 14:02:39
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-15 17:17:12
+ * @LastEditTime: 2019-06-30 16:11:16
  */
 
 import {combineReducers} from 'redux'
-import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND} from './action-type'
+import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET} from './action-type'
 // 导航栏的文字
 const navBarText = (state='职位',action)=>{
     switch(action.type){
@@ -36,16 +36,27 @@ const ifgetjobend = (state = false,action)=>{
     }
 }
 // 保存用户信息
-let userInfo = {
+const userInfo = {
     username:'',
     isAuth:false,
-    _id:''
+    name:'',
+    headImg:'',
+    sex:'',
+    workTime:'2018-08-08',
+    birth:'2000-01-01',
+    wxNum:'',
+    myAdvantage:'',
+    company:'',
+    myJob:'',
+    myEmail:''
 }
 const loginSatate =(state = userInfo,action)=>{
     switch(action.type){
         case SUCCESS_LOGIN:
             console.log(action.data)
-            return {...action.data,isAuth:true};
+            return {...state,...action.data,isAuth:true}
+        case SAVEPERSONSET:
+            return {...state,...action.data}
         case CLEAR_LOGIN:
             console.log('-----清除信息')
             return userInfo;
@@ -78,6 +89,6 @@ const reducers = combineReducers({
     loginSatate,
     getJoblist,
     ifgetnewjob,
-    ifgetjobend
+    ifgetjobend,
 })
 export default reducers;

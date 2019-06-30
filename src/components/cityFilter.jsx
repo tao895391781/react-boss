@@ -4,56 +4,66 @@
  * @Author: tll
  * @Date: 2019-06-16 12:05:00
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-16 18:23:59
+ * @LastEditTime: 2019-06-21 14:47:44
  */
 import React from 'react'
-import {NavBar,Icon,Button,Flex} from 'antd-mobile'
+import {NavBar,Icon,Button} from 'antd-mobile'
 import './cityFilter.css'
 import citycss from './cityFilter.scss'
-const list = require('china-location/dist/location.json');
-const ChinaLocation = require('china-location');
-const location = new ChinaLocation(list);
 class cityFilter extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            city:location.currentProvinces,
-            area:location.currentDistricts,  
         }
-        this.closeCity = this.closeCity.bind(this)
     }
     componentDidMount(){
-    console.log(location)  
-    }
-    closeCity(){
-        this.props.filterCity(false);  
     }
     render() {
+        const {currentCity,currentArea} = this.props;
+        console.log(currentCity,currentArea)
         return (
             <div className={citycss.navbar}>
-                  <NavBar
-                    mode="light"
-                    leftContent={<Icon type='cross'></Icon>}
-                    onLeftClick = {this.closeCity}
-                    rightContent={<span>切换城市</span>}>
-                北京
-                </NavBar>  
-                  
+                    <NavBar
+                        mode="light"
+                        leftContent={<Icon type='cross'></Icon>}
+                        onLeftClick = {()=>this.props.filterCity(false)}
+                        rightContent={<span onClick = {()=>this.props.changeCity(true)}>切换城市</span>}>
+                            北京
+                    </NavBar>  
                 <div  className = {citycss.filter}>
                     <ul>
-                        <li>常用城市</li>
-                        {
-
-                        }
-                        <li>地铁</li>
-                        <li>附近</li>
+                        <li>商圈</li>
+                        {/* <li>地铁</li>
+                        <li>附近</li> */}
                     </ul>
-                    <ul></ul>
-                    <ul></ul>
+                    <ul>
+                        <li className = { !currentArea.label ? citycss.activeli:''}
+                        onClick = {()=>this.props.selectArea('flag')}
+                        >全{currentCity.label}</li>
+                        {
+                            currentCity.children.map((city,index)=>(
+                                <li key={city.value} 
+                                className = {(currentArea.value === city.value) ? citycss.activeli:''}
+                                onClick = {()=>this.props.selectArea(index,city)}>{city.label}</li>
+                            )) 
+                        }
+                    </ul>
+                    <ul>
+                        <li className = {citycss.activeli}>全
+                            {
+                                !currentArea.label? (
+                                    currentCity.label
+                                ):(
+                                    currentArea.label 
+                                )
+                            }
+                            <i className='iconfont icongou'></i>
+                            </li>
+                    </ul>
                 </div>
                 <div className={citycss.footer}>
-                    <Button type='default' inline>清除</Button>
-                    <Button type='primary' inline>确定</Button>
+                    <Button type='default' inline onClick={this.props.clearArea}>清除</Button>
+                    <Button type='primary' inline onClick = {this.props.saveArea}>确定</Button>
                 </div>
             </div>
         )

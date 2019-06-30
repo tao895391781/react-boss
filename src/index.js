@@ -7,6 +7,8 @@ import './index.css'
 import '@/static/font/iconfont.css'
 import App from '@/container/app';
 import Boss_index from '@/container/boss/boss_index'
+
+import Info from '@/container/boss/mys/info'
 // import Notfound from '@/components/404'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import {persistor} from '@/redux/store'
@@ -19,9 +21,8 @@ const renderApp = ()=>{
                     <Switch>
                         <Route path='/' exact  component = {App}></Route>
                         <Route path='/login' exact  component = {App}></Route>
-                        <Route path='/boss'  component = {Boss_index}>
-
-                        </Route>
+                        <Route path='/boss'  component = {Boss_index}></Route>
+                        <Route path='/info' component = {Info}></Route>
                     </Switch>
                 </BrowserRouter> 
             </PersistGate>

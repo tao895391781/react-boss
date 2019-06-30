@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-16 11:43:13
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-29 16:32:22
+ * @LastEditTime: 2019-06-29 14:18:52
  */
 import React from 'react'
 import{InputItem,Button,List,Radio} from 'antd-mobile'
@@ -63,7 +63,6 @@ class Login extends React.Component {
                         ))
                           }
                   </div>
-                   
                   <Button type='primary' 
                   style={{"width":"80%","margin":".5rem auto"}}  
                   onClick = {this.props.registerUser}

@@ -5,6 +5,8 @@ $footerHeight:.47rem;
     display: flex;
     justify-content: space-around;
     border-top: 1px solid #eee;
+    position: relative;
+    z-index: 900;
     li{
         height:$footerHeight;
         padding-top: .03rem;
@@ -24,7 +26,6 @@ $footerHeight:.47rem;
     }
 }
 .navActive{
-    // background: #f2f2f2;
     p{
       span,i{
           color:#2196f3!important;

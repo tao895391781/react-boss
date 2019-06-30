@@ -7,3 +7,4 @@ export const CLEAR_LOGIN = 'CLEAR_LOGIN'
 export const JOBLIST = 'JOBLIST'//获取新的职位
 export const IFGETNEWJOB = 'IFGETNEWJOB'//判断是否获取新的职位
 export const IFJOBEND = 'IFJOBEND'//判断职位是否获取完
+export const SAVEPERSONSET = 'SAVEPERSONSET'//保存个人设置
