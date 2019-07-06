@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-06-30 17:18:24
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-30 18:02:01
+ * @LastEditTime: 2019-07-04 11:06:18
  */
 
 const express = require('express');
@@ -13,7 +13,7 @@ const model = require('../mongo-model/model');
 const Company = model.getModel('company')
 router.get('/',(req,res)=>{
     let name = req.param('name');
-    Company.find({$or:[{name:{'$regex':name}}]})
+    Company.find({$or:[{name:{'$regex':name}}]},{_id:0})
     .exec((err,companys)=>{
         if(err) return (
             res.json({

@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-16 11:32:25
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-29 15:31:59
+ * @LastEditTime: 2019-07-06 09:38:52
  */
 import React from 'react'
 import {Switch,Route,Redirect} from 'react-router-dom'
@@ -86,8 +86,6 @@ class Boss_index extends React.PureComponent {
                     <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
                 </header>
                 <div className = 'flex-container'> 
-                {/* <div style={{position:'fixed',left:0,top:0,zIndex:1000,width:'100%',height:'100%',backgroundColor:'red'}}>
-                </div> */}
                     <Switch>
                         {
                             navlist.map((item,index)=>(

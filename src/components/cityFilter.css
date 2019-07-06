@@ -1,11 +1,89 @@
-.navbar .am-navbar-light{
-    color:#000;  
+.navbar {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
-.navbar .am-navbar-left .am-icon-md{
-    width:.3rem;
-    height:.3rem;
-    color:#333;
+
+.filter {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow: hidden;
 }
-.navbar .am-navbar-right{
-    color:#108ee9;
+
+.filter ul {
+  width: 35%;
+  height: 100%;
+  float: left;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
+
+.filter ul li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+
+.filter ul:first-child {
+  width: 30%;
+  background: #f2f2f2;
+}
+
+.filter ul:first-child li {
+  color: #108ee9;
+}
+
+.filter ul:nth-child(2) {
+  border-right: 1px solid #eee;
+}
+
+.filter ul li {
+  text-align: center;
+  height: .4rem;
+  line-height: .4rem;
+  font-size: .16rem;
+}
+
+.activeli {
+  color: #108ee9;
+}
+
+.footer {
+  background: #fff;
+  height: .7rem;
+  border-top: 1px solid #eee;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.footer > a {
+  color: #555;
+  letter-spacing: 0;
+}
+
+.footer > a:first-child {
+  width: 35%;
+  background: #f2f2f2;
+}
+
+.footer > a:last-child {
+  width: 50%;
+  color: #fff;
+}
+/*# sourceMappingURL=cityFilter.css.map */

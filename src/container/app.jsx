@@ -166,12 +166,21 @@ class App extends React.Component{
                                 const saveUserInfo_= this.props.saveUserInfo;
                                 // 保存登录信息
                                 saveUserInfo_(res.data.info);
-                                if(!res.data.info.name){
-                                    //未填写用户信息的去信息页
-                                    this.props.history.replace({pathname:'/info',state:{from:'login'}});
+                                if(selectRole === 'worker'){
+                                    if(!res.data.info.name){
+                                        //未填写用户信息的去信息页
+                                        this.props.history.replace({pathname:'/info',state:{from:'login'}});
+                                    }else{
+                                        this.props.history.replace('/boss');
+                                    }
                                 }else{
-                                    this.props.history.replace('/boss');
-                                }    
+                                    if(!res.data.info.name || !res.data.info.company ||!res.data.info.myJob){
+                                        //未填写用户信息的去信息页
+                                        this.props.history.replace({pathname:'/info',state:{from:'login'}});
+                                    }else{
+                                        this.props.history.replace('/boss');
+                                    }
+                                } 
                             },1000)
                         }else{
                             switch(res.data.status){

@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-30 17:12:18
+ * @LastEditTime: 2019-07-05 18:25:10
  */
 import React from 'react'
 import {Button,Modal,List,Icon} from 'antd-mobile'
@@ -39,6 +39,7 @@ class My extends React.Component {
         }
         this.exit = this.exit.bind(this)
         this.myInfo = this.myInfo.bind(this)
+        this.goMyOfView = this.goMyOfView.bind(this)
     }
     exit(){
         Modal.alert('退出操作', '你是否退出登录？', [
@@ -64,8 +65,12 @@ class My extends React.Component {
         console.log(this.props)
         const {name} = this.props.state;
         this.setState({
-            name
+            name,
         })
+    }
+    //进入我的   点击链接进入
+    goMyOfView(path){
+        this.props.history.push(path)
     }
     render() {
         const {navlink,name} = this.state;
@@ -77,7 +82,7 @@ class My extends React.Component {
                         <div>
                             <p>{name}</p>
                             {
-                                type === 'worker' ? (<p>我的在线简历 ></p>):(<p>公司:{company}</p>)
+                                type === 'worker' ? (<p>我的在线简历 ></p>):(<p>公司:{company[0]}</p>)
                             }  
                         </div>
                         <div onClick={this.myInfo}>
@@ -96,13 +101,16 @@ class My extends React.Component {
                     </ul>
                </div>
                <div className='nullBox'></div>
-               <List>
-                    <List.Item extra={<Icon type='right'></Icon>}>发布/管理职位</List.Item>
-                </List>
+               {
+                   type === 'boss' && (
+                        <List>
+                            <List.Item extra={<Icon type='right'></Icon>} onClick={()=>this.goMyOfView('/JobManage')}>发布/管理职位</List.Item>
+                        </List>
+                   )
+               }
                 <Button type='warning' onClick= {this.exit} className={mycss.exit}>退出</Button>
             </div>
         )
     }
 }
-
 export default My

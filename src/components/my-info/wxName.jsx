@@ -4,14 +4,15 @@
  * @Author: tll
  * @Date: 2019-06-27 09:54:05
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-30 18:22:26
+ * @LastEditTime: 2019-07-04 14:18:21
  */
 import React from 'react'
-import {NavBar,Icon,InputItem,List} from 'antd-mobile'
+import {NavBar,Icon,InputItem,List,Button} from 'antd-mobile'
+import './wxName.css'
 class WxName extends React.Component {
     render() {
-        const {value,searchCompany} = this.props;
-        console.log(value);
+        const {value,searchCompany,sureCompany,companyName} = this.props;
+        console.log(value,companyName);
         let label = {
             name:'姓名',
             wxNum:'微信号',
@@ -26,20 +27,30 @@ class WxName extends React.Component {
                     icon={<Icon type="cross" />}
                     onLeftClick={this.props.exitWxorName}
                     rightContent={
-                        <Icon type="check" style={{ marginRight: '16px' }} onClick={this.props.sureWxorName}/>
+                        <Button className='wxName' onClick={this.props.sureWxorName} disabled={sureCompany}><Icon type="check" style={{ marginRight: '16px' }}/></Button>
+                        
                     }
                 >{label[value.label]}</NavBar>
                 <div style={{height:'20px','backgroundColor':'#f2f2f2'}}></div>
                 <List>
-                    <InputItem type='text' 
-                    defaultValue={value.value} 
-                    onChange = {value.label === 'company' ? this.props.companySearch:()=>{}}
-                    onBlur={this.props.resivePersonInfo}></InputItem>
+                    {
+                        value.label === 'company' ? 
+                        ( 
+                        <InputItem type='text' 
+                            value = {companyName}
+                            onChange = {this.props.companySearch}
+                            onBlur={this.props.resivePersonInfo}></InputItem>):
+                        (
+                        <InputItem type='text' 
+                            defaultValue={value.value} 
+                            onBlur={this.props.resivePersonInfo}></InputItem>
+                        ) 
+                    }
                 </List>  
                 <List>
                     {  
                         searchCompany.map(c=>(
-                            <List.Item key={c.companyId}>{c.name}</List.Item>
+                            <List.Item key={c.companyId} onClick={()=>this.props.selectCompany(c)}>{c.name}</List.Item>
                         ))   
                     }
                 </List>

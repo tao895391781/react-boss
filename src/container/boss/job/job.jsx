@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-29 10:04:23
+ * @LastEditTime: 2019-07-06 11:31:47
  */
 import React from 'react'
 import ReactDom from 'react-dom'
@@ -420,7 +420,7 @@ class Job extends React.Component {
             <div className={'pagebox '+ jobcss['job-box']}>
                 {/* 筛选城市 */}
                 <CSSTransition in={showCitySelect} timeout={300} classNames={showProviceSelect?'my-city1':'my-city'} unmountOnExit>
-                    <div className={jobcss.cityfilter}>
+                    <div className='fixWindow'>
                         <CityFilter filterCity = {this.filterCity} 
                             selectArea = {(index,city)=>this.selectArea(index,city)}
                             currentCity = {currentCity}
@@ -432,7 +432,7 @@ class Job extends React.Component {
                 </CSSTransition>
                 {/* 切换城市 */}
                 <CSSTransition in = {showProviceSelect} timeout={300} classNames='my-provice' unmountOnExit>
-                    <div className={jobcss.cityfilter}>
+                    <div className='fixWindow'>
                         <ChangeCity closeCity = {this.closeCity} 
                             switchCity = {(city)=>this.switchCity(city)}
                             regionData = {regionData} 

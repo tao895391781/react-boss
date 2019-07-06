@@ -9,3 +9,5 @@ export const setJobarea = ip.path + '/setJobarea'//设置地区---职位的筛�
 export const writeinfo = ip.path +'/writeinfo'//写入用户信息
 export const getinfo = ip.path + '/getinfo'//获取用户设置
 export const getcompanyByName = ip.path + '/getcompany'//获取用户设置
+export const postBossAddJob = ip.path +'/postBossAddJob'//boss添加职位
+export const getBossAddJob =  ip.path +'/getBossAddJob'//获取boss职位

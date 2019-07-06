@@ -9,6 +9,7 @@ import App from '@/container/app';
 import Boss_index from '@/container/boss/boss_index'
 
 import Info from '@/container/boss/mys/info'
+import JobManage from '@/container/boss/mys/bossPage/job-manage'
 // import Notfound from '@/components/404'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import {persistor} from '@/redux/store'
@@ -23,6 +24,7 @@ const renderApp = ()=>{
                         <Route path='/login' exact  component = {App}></Route>
                         <Route path='/boss'  component = {Boss_index}></Route>
                         <Route path='/info' component = {Info}></Route>
+                        <Route path='/JobManage' component = {JobManage}></Route>
                     </Switch>
                 </BrowserRouter> 
             </PersistGate>

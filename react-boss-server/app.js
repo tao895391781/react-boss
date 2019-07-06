@@ -13,6 +13,8 @@ const setJobareaRouter = require('./routes/setJobarea');
 const writeInfoRouter = require('./routes/writeinfo')
 const getinfoRouter = require('./routes/getinfo')
 const getcompanyRouter = require('./routes/search-company')
+const postBossAddJobRouter = require('./routes/postBossAddJob')
+const getBossAddJobRouter = require('./routes/getBossAddJob')
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -44,6 +46,8 @@ app.use('/setJobarea',setJobareaRouter)
 app.use('/writeinfo',writeInfoRouter)
 app.use('/getinfo',getinfoRouter)
 app.use('/getcompany',getcompanyRouter)
+app.use('/postBossAddJob',postBossAddJobRouter)
+app.use('/getBossAddJob',getBossAddJobRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

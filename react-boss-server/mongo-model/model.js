@@ -19,10 +19,25 @@ const models = {
         birth:{type:String,require:true},
         myAdvantage:{type:String,require:true},
 
-        company:{type:String,require:true},
+        company:{type:Array,require:true},
         myJob:{type:String,require:true},
         myEmail:{type:String,require:true},
 
+    },
+    // boss创建的职位
+    bossJob:{
+        username:{type:Number,require:true},
+        jobName: {type:String,require:true},
+        intro:{type:Array,require:true},
+        red: {type:String,require:true},
+        company: {type:String,require:true},
+        companyDesc:{type:String,require:true},
+        person: {type:String,require:true},
+        personDesc: {type:String,require:true},
+        headImg: {type:String,require:true},
+        edu:{type:Array,require:true},
+        workTime:{type:Number,require:true},
+        address:{type:Array,require:true},
     },
     job:{       
         name: {type:String,require:true},
@@ -34,10 +49,12 @@ const models = {
         personDesc: {type:String,require:true},
         headImg: {type:String,require:true},
     },
+    // 所有的公司信息
     company:{
         name:{type:String,require:true},
         companyId:{type:Number,require:true}
     }
+
 }
 for(let m in models){
     mongoose.model(m,new mongoose.Schema(models[m]))

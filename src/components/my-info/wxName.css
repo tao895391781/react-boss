@@ -1,0 +1,11 @@
+.wxName{
+   height:45px;
+   line-height:45px;
+   display:flex;
+   align-items: center;
+   color:#108ee9;
+}
+html:not([data-scale]) .wxName::before{
+    border-color:transparent;
+}
+

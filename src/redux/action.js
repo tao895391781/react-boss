@@ -1,6 +1,6 @@
-import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET} from  './action-type'
+import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB} from  './action-type'
 import axios from 'axios';
-import {getjoblist,writeinfo,getinfo} from '@/api.js'
+import {getjoblist,writeinfo,getinfo,postBossAddJob,getBossAddJob} from '@/api.js'
 //顶部导航文字显示部分
 export const navBarText = (data)=>{
     return {type:NAVBARTEXT,data}
@@ -97,4 +97,30 @@ export const asyncGetPersonSet = (param)=>{
         }
     )
 }
+// 保存boss创建的职位
+const saveBossJob = (data)=>{
+    return {type:SAVEBOSSADDJOB,data}
+}
+//获取boss创建的职位
+export const asyncGetBossJob = (username)=>{
+    return (
+        dispatch=>{
+            return new Promise((resolve,reject)=>{
+                axios.get(`${getBossAddJob}?username=${username}`).then(res=>{
+                    console.log(res.data);
+                    dispatch(saveBossJob(res.data.jobList));
+                    resolve(res.data)
+                })
+            })
+        }
+    )
+}
+export const asyncPostBossJob = (postdata)=>{
+    return new Promise((resolve,reject)=>{
+        axios.post(postBossAddJob,postdata).then(res=>{
+            resolve(res.data);
+        })
+    })
+}
+
 
