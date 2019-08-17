@@ -123,8 +123,10 @@ class Info extends React.Component {
                     this.props.history.replace('/boss');   
                 }
             }
+        }else if(from === 'onlineCV'){
+            this.props.history.go(-1); 
         }else{
-            this.props.history.replace('/boss/my');   
+            this.props.history.go(-1);   
         }  
     }
     //选择公司
@@ -133,7 +135,7 @@ class Info extends React.Component {
         this.setState({
             sureCompany:false,
             companyName:company.name,
-            wxNum_:{label:'company',value:company.name,companyId:company.companyId}
+            wxNum_:{label:'company',value:company.name,companyId:company.companyId,desc:company.desc}
         });
     }
     //修改信息
@@ -199,26 +201,35 @@ class Info extends React.Component {
         let info_ = type === 'worker'?'workInfo':'bossInfo'
         let {value,label} = wxNum_;
         let {name} = info;
+        let {wxNum} = workInfo
         let tipText = {
             name:'名字',
             myJob:'职位',
             company:'公司'
         }
-        if((label === 'name' || label === 'myJob' || label === 'company') && !value){
-
-            Toast.fail(`${tipText[label]}不能为空`, 1);
-            return;
+        if((label === 'name' || label === 'myJob' || label === 'company')){
+                if(!value){
+                    Toast.fail(`${tipText[label]}不能为空`, 1); 
+                    return;
+                }
         }
-        if(wxNum_.value !== name){
+        console.log(wxNum_,wxNum)
+        if(wxNum_.value === info[wxNum_.label]){
+                    this.setState({
+                        showWxName:false
+                    });
+                    return;
+        } 
+        if(wxNum_.value !== info[wxNum_.label]){
             let {from} = this.props.history.location.state;
             //从登录页过来的不做单次修改 
             let workInfo_ = null;
             if(label === 'company'){
-                workInfo_ = Object.assign({},{...bossInfo},{company:[companyName,wxNum_.companyId]})
+                workInfo_ = Object.assign({},{...bossInfo},{company:[companyName,wxNum_.desc,wxNum_.companyId]})
             }else{
                 workInfo_ = Object.assign({},{...info},{[label]:value})
             }
-            if(from === 'login'){
+            if(from === 'login' && type ==='boss'){
                 this.setState({
                     [info_]:workInfo_,
                     showWxName:false
@@ -227,7 +238,7 @@ class Info extends React.Component {
                 const {username} = this.props.state;
                 let postdata = {
                     data:{
-                        [label]:label === 'company'?[companyName,wxNum_.companyId]:value
+                        [label]:label === 'company'?[companyName,wxNum_.desc,wxNum_.companyId]:value
                     },
                     username,
                 }
@@ -245,14 +256,11 @@ class Info extends React.Component {
                     } 
                 }); 
             }
-        }else{
-            this.setState({
-                showWxName:false
-            })
         }
     }
     //动态修改信息
     resivePersonInfo(value){
+        console.log(value)
         this.setState({
             wxNum_:{...this.state.wxNum_,value},
         })    
@@ -261,8 +269,15 @@ class Info extends React.Component {
     selectSex(key,val){
         console.log(key,val);
         let {from} = this.props.history.location.state;
+        const {type} = this.state;
         //从登录页过来的不做单次修改
-        if(from === 'login'){
+        let flag = '';//两次输入的结果是否一样
+        if(val.length){
+            flag = val[0] === this.state.workInfo[key][0];
+        }else if(Object.prototype.toString.call(val) === '[object Date]'){
+            flag = new Date(val).getTime() === new Date(this.state.workInfo[key]).getTime()
+        }
+        if((from === 'login' && type === 'boss') || flag){
             this.setState({
                 workInfo:Object.assign({},{...this.state.workInfo},{[key]:val})
             })
@@ -270,7 +285,7 @@ class Info extends React.Component {
             const {username} = this.props.state;
             let postdata = {
                 data:{
-                    [key]:val[0]
+                    [key]:key !=='sex' ? val:val[0]
                 },
                 username
             }
@@ -301,11 +316,11 @@ class Info extends React.Component {
     }
     //提交我的优势  文本
     advSure(){
-        const {myAdvantage_,myAdvantage} = this.state; 
+        const {myAdvantage_,myAdvantage,type} = this.state; 
         if(myAdvantage_ !== myAdvantage){
             let {from} = this.props.history.location.state;
             //从登录页过来的不做单次修改
-            if(from === 'login'){
+            if((from === 'login' && type === 'boss') || this.state.workInfo['myAdvantage'] === myAdvantage_){
                 this.setState({
                         showmyAdvantage:false,
                         workInfo:Object.assign({},{...this.state.workInfo},{myAdvantage:myAdvantage_})
@@ -369,12 +384,12 @@ class Info extends React.Component {
                                 ifSaveBossInfo:true
                             })
                             Toast.success('修改成功', 1); 
-                            this.props.history.replace('/boss');   
-                    }
-                })
+                            this.props.history.replace('/boss');         
+                            }
+                        })
                     }   
                 },
-              ]) 
+            ]) 
         }
     }
     componentDidMount(){
@@ -420,6 +435,7 @@ class Info extends React.Component {
             type,searchCompany,sureCompany,companyName} = this.state;
         let info = type === 'worker'?workInfo:bossInfo;
         let {from} = this.props.history.location.state;
+        console.log(from)
         return (
             <div className={infocss.infobox}>
                 <NavBar

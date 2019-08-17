@@ -4,20 +4,19 @@
  * @Author: tll
  * @Date: 2019-07-05 14:26:53
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-05 18:26:39
+ * @LastEditTime: 2019-07-12 09:37:26
  */
 const express = require('express');
 const router = express.Router();
-const model = require('../mongo-model/model');
+const model = require('../../mongo-model/model');
 const BossJob = model.getModel('bossJob')
 router.get('/',(req,res)=>{
     let username = req.param('username')
-    BossJob.find({username},(err,res)=>{
+    BossJob.find({username},(err,res1)=>{
         res.json({
-            msg:'获取职位成功',
+            msg:'获取boss职位成功',
             code:1,
-            count:12,
-            joblist:res
+            joblist:res1
         })
     })
 })

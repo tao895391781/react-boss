@@ -1,8 +1,22 @@
 .pagebox{
     width:100%;
     height:100%;
-    /* overflow: scroll;
-    -webkit-overflow-scrolling: touch; */
+}
+.scrollBox{
+    width:100%;
+    height:100%;
+    position: relative;
+    overflow: hidden;
+}
+.scrollBottom{
+  width:100%;
+  height:55px;
+}
+.pageBox1{
+  width:100%;
+  height:100%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 .flexBox{
     width:100%;
@@ -17,6 +31,14 @@
   width:100%;
   height:.2rem;
   background: #fff;
+}
+/* 全局保存按钮样式 */
+.saveBtn{
+  width:80%;
+  margin:.15rem auto;
+}
+.floatR{
+  float:right;
 }
 /* 全局固定定位 */
 .fixWindow{

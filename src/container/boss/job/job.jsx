@@ -4,14 +4,11 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-06 11:31:47
+ * @LastEditTime: 2019-08-14 10:00:26
  */
 import React from 'react'
-import ReactDom from 'react-dom'
-import {Card,PullToRefresh,Toast,ListView,Tag,Icon} from 'antd-mobile'
-import {connect} from 'react-redux'
-import {isEqual} from 'underscore'
-import {getJobList,JobList,ifgetnewJob,ifJobEnd} from '@/redux/action'
+import {Card,PullToRefresh,Tag,Icon} from 'antd-mobile'
+import RenderListView from '@/components/height-components/renderListView'
 import jobcss from './job.scss'
 import CityFilter from '@/components/cityFilter'
 import ChangeCity from '@/components/change-city'
@@ -20,25 +17,10 @@ import { CSSTransition } from 'react-transition-group';
 import { regionData} from 'element-china-area-data'
 import hotCity from './job-hot-city'
 import filterSectionss from './filter-section'
-@connect(state=>({state:state}),{getJobList,JobList,ifgetnewJob,ifJobEnd})
 class Job extends React.Component {
     constructor(props) {
         super(props)
-        const dataSource = new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
-        })
         this.state = {
-            dataSource,
-            isLoading: true,
-            height: '100%',
-            pageSize:5,
-            joblist:[],//职位列表
-            EndReachedThreshold:40,
-            page:1,//获取职位当前页数
-            refreshing:false,//下拉刷新状态
-            showBackTop:false,
-            scrollTopShowBackTop:1500,//滚动到多少显示回到顶部按钮
-            ifDownRefresh:false,//是否下拉刷新
             showCitySelect:false,//筛选--城市选择
             showProviceSelect:false,//省份选择
             showSectionSelect:false,//筛选选项
@@ -56,9 +38,6 @@ class Job extends React.Component {
             filterSection:filterSectionss,
             filterSectionNum:0,//选中的选项的个数
         }
-        this.onScroll = this.onScroll.bind(this)
-        this.onScrollEnd = this.onScrollEnd.bind(this)
-        this.onRefresh = this.onRefresh.bind(this)
         this.backTop = this.backTop.bind(this)
         this.filterSections = this.filterSections.bind(this)
         this.filterCity = this.filterCity.bind(this)
@@ -91,86 +70,41 @@ class Job extends React.Component {
         }
         localStorage.setItem('currentArea',JSON.stringify(city))
     }
-    //显示loading
-    show =()=>{
-        Toast.loading('loading...',0);
-    }
-    //隐藏loading
-    hide = ()=>{
-       Toast.hide(); 
-    }
-    hiderefresh=()=>{
-       this.setState({refreshing:false})
-    }
-    //保存每次获取的职位
-    saveEveryGet(data){
-       this.setState({
-        joblist:[...data,...this.state.joblist]
-       }) 
-    }
-     componentWillReceiveProps(nextProps) {
-         console.log(nextProps)
-        if (nextProps.state.getJoblist.page !== this.props.state.getJoblist.page 
-            || this.props.state.getJoblist.ifrefresh === 'first') {
-            console.log('joblist更新了');
-            if(nextProps.state.getJoblist.page !== this.props.state.getJoblist.page){
-                    this.initData.push(...nextProps.state.getJoblist.data);
-                    console.log(this.initData)
-                    this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(this.initData)
-                });
-            }else{
-              this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.state.getJoblist.data)
-            });  
-            }    
+    componentDidMount(){
+        console.log(this.props)
+        //获取localStorage里面的常用城市列表
+        if(localStorage.getItem('usual-city')){
+            this.setState({
+                usualCityArr:JSON.parse(localStorage.getItem('usual-city'))
+            })
         }
+        if(sessionStorage.getItem('currentCity')){
+            let currentCity = JSON.parse(sessionStorage.getItem('currentCity'));
+            this.setState({
+                currentCity
+            })
+        }
+        if(sessionStorage.getItem('currentArea')){
+            let currentArea = JSON.parse(sessionStorage.getItem('currentArea'));
+            this.setState({
+                currentArea
+            })
+        }
+    }
+     componentWillReceiveProps(nextProps,nextState) {
         // 职位地区更新
-        if(!isEqual(nextProps.state.loginSatate.jobArea,this.props.state.loginSatate.jobArea)){
-            console.log('职位地区更新了');
-            const {jobArea} = nextProps.state.loginSatate
-            for(let job in jobArea){
-                this.setState({
-                    [job]:jobArea[job]
-                });
-            }   
-        }
+        // if(!isEqual(nextProps.loginSatate.jobArea,this.props.loginSatate.jobArea)){
+        //     console.log('职位地区更新了');
+        //     const {jobArea} = nextProps.loginSatate
+        //     for(let job in jobArea){
+        //         this.setState({
+        //             [job]:jobArea[job]
+        //         });
+        //     }   
+        // }
   }
     backTop(){
         this.view.scrollTo()
-    }
-  //listview滚动触发
-    onScroll(e){
-        let ifshow = e.target.scrollTop > this.state.scrollTopShowBackTop ? true: false;
-            this.setState({
-                showBackTop:ifshow
-            })
-    }
-    // listview滚动到临界值触发
-    onScrollEnd(){
-        console.log('listview滚动到临界值触发');
-        console.log(this.props)
-        const {ifgetjobend} = this.props.state;
-        const {page} = this.state;
-        const getjob = this.props.getJobList;
-        if(!ifgetjobend){
-           this.setState({
-              page:page+1,
-          },()=>{
-             getjob(this.state.page,this.show,this.hide,'refresh');  
-          }); 
-        }    
-    }
-    //下拉刷新职位列表
-    onRefresh(){
-        console.log('下拉刷新');
-        this.setState({refreshing:true});
-        const getjob = this.props.getJobList;
-        this.setState({
-              page:1
-          },()=>{
-            getjob(1,this.show,this.hide,'first',this.hiderefresh);
-          });
     }
     filterSections(flag){
         this.setState({
@@ -197,7 +131,7 @@ class Job extends React.Component {
             showProviceSelect:false,
             showCitySelect:false,  
         })  
-        this.hide(); 
+        this.props.hide(); 
     }
     //点击省获取对应的市/区
     clickProvice(index,city){
@@ -360,46 +294,24 @@ class Job extends React.Component {
             filterSectionNum:0
         })
     }
-    componentDidMount(){
-        //获取redux里的导航文字
-        const {page} = this.state;
-        const getjob = this.props.getJobList;
-        getjob(page,this.show,this.hide,'first')
-        //获取localStorage里面的常用城市列表
-        if(localStorage.getItem('usual-city')){
-            this.setState({
-                usualCityArr:JSON.parse(localStorage.getItem('usual-city'))
-            })
-        }
-        if(sessionStorage.getItem('currentCity')){
-            let currentCity = JSON.parse(sessionStorage.getItem('currentCity'));
-            this.setState({
-                currentCity
-            })
-        }
-        if(sessionStorage.getItem('currentArea')){
-            let currentArea = JSON.parse(sessionStorage.getItem('currentArea'));
-            this.setState({
-                currentArea
-            })
-        }
-    }
     renderRow(job,id,i){
         return (
             <div key={i} className={jobcss['job-box']}>
                             <Card>
                                 <Card.Header
-                                    title={job.name} 
+                                    title={job.jobName} 
                                     extra={<span>{job.red}</span>}
                                     >
                                 </Card.Header>
                                 <Card.Body>
-                                    <div><span>{job.company}</span><span>{job.companyDesc}</span></div>
+                                    <div><span>{job.company[0]}</span><span>{job.company[1]}</span></div>
                                     <div className={jobcss['job-tag']}>
                                         {
-                                            job.intro.map((intro,index)=><Tag data-seed="logId" key={index}>{intro}</Tag>)
+                                            job.address.map((intro,index)=><Tag data-seed="logId" key={index}>{intro.label}</Tag>)
                                         }
-                                        </div>
+                                        <Tag data-seed="logId">{job.workTime}年</Tag>
+                                        <Tag data-seed="logId">{job.edu[0].label}</Tag>
+                                    </div>
                                 </Card.Body>
                                 <Card.Header 
                                     className = {jobcss['job-card-header-color']}
@@ -414,7 +326,9 @@ class Job extends React.Component {
         )
     }
     render() {
-        const {ifgetjobend} = this.props.state
+        // console.log(this.props)
+        const {ListView} = this.props 
+        const {ifgetjobend} = this.props.data
         const {showBackTop,showCitySelect,showProviceSelect,ifhotcity,cityArr,hotCityArr,usualCityArr,currentCity,currentArea,showSectionSelect,filterSection,filterSectionNum} = this.state
         return (
             <div className={'pagebox '+ jobcss['job-box']}>
@@ -458,6 +372,7 @@ class Job extends React.Component {
                         </NeedFilfer>
                     </div>
                 </CSSTransition>
+                <div className='pageBox1'>
                 <div className={jobcss.filferBar}>
                     <div>
                         <span>推荐</span>
@@ -494,28 +409,29 @@ class Job extends React.Component {
                             renderFooter={!ifgetjobend && (() => (<div style={{ padding: 15, textAlign: 'center',fontSize:25}}>
                                     <Icon type='loading' />
                                 </div>))}
-                            dataSource = {this.state.dataSource}
-                            pageSize = {this.state.pageSize}
+                            dataSource = {this.props.data.dataSource}
+                            pageSize = {this.props.data.pageSize}
                             style={{
-                                height: this.state.height,
+                                height: this.props.data.height,
                                 overflow: 'auto',
                                 }}
                             renderRow={(data,id,i)=>this.renderRow(data,id,i)} 
-                            onEndReachedThreshold = {this.state.EndReachedThreshold}
-                            onEndReached = {this.onScrollEnd}
-                            onScroll = {this.onScroll}
+                            onEndReachedThreshold = {this.props.EndReachedThreshold}
+                            onEndReached = {this.props.onScrollEnd}
+                            onScroll = {this.props.onScroll}
                             scrollEventThrottle = {100}
                             pullToRefresh={<PullToRefresh
-                                refreshing={this.state.refreshing}
-                                onRefresh={this.onRefresh}
+                                refreshing={this.props.refreshing}
+                                onRefresh={this.props.onRefresh}
                                 />}
                             > 
                         </ListView>
                     )
                 }
+                </div>
             </div>
         )
     }
 }
 
-export default Job
+export default RenderListView(Job,'joblist')

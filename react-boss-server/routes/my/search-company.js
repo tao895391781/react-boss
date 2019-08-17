@@ -4,12 +4,12 @@
  * @Author: tll
  * @Date: 2019-06-30 17:18:24
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-04 11:06:18
+ * @LastEditTime: 2019-07-11 15:41:21
  */
 
 const express = require('express');
 const router = express.Router();
-const model = require('../mongo-model/model');
+const model = require('../../mongo-model/model');
 const Company = model.getModel('company')
 router.get('/',(req,res)=>{
     let name = req.param('name');

@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-06-27 15:02:17
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-30 14:06:51
+ * @LastEditTime: 2019-07-20 11:33:31
  */
 import React from 'react'
 import {Picker,List,DatePicker} from 'antd-mobile'
@@ -13,7 +13,6 @@ import './sex.css'
 class Sex extends React.Component {
     render() {
         const {data,sexValue,workTime,birth} = this.props;
-        console.log(this.props)
         const { getFieldProps } = this.props.form;
         return (
             <List className='sexBox'>
@@ -27,6 +26,7 @@ class Sex extends React.Component {
                     mode='date'
                     title="参加工作时间"
                     extra="请选择"
+                    maxDate = {new Date()}
                     value={new Date(workTime)}
                     format='YYYY-MM-DD'
                     onOk={(val)=>this.props.selectSex('workTime',val)}
@@ -40,6 +40,7 @@ class Sex extends React.Component {
                     value={new Date(birth)}
                     format='YYYY-MM-DD'
                     minDate={new Date('1990-01-01')}
+                    maxDate = {new Date()}
                     onOk={(val)=>this.props.selectSex('birth',val)}
                     >
                     <List.Item arrow="horizontal">出生日期</List.Item>

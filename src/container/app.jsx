@@ -171,16 +171,17 @@ class App extends React.Component{
                                         //未填写用户信息的去信息页
                                         this.props.history.replace({pathname:'/info',state:{from:'login'}});
                                     }else{
-                                        this.props.history.replace('/boss');
+                                        this.props.history.replace({pathname:'/boss'});
                                     }
                                 }else{
                                     if(!res.data.info.name || !res.data.info.company ||!res.data.info.myJob){
                                         //未填写用户信息的去信息页
                                         this.props.history.replace({pathname:'/info',state:{from:'login'}});
                                     }else{
-                                        this.props.history.replace('/boss');
+                                        this.props.history.replace({pathname:'/boss'});
                                     }
                                 } 
+
                             },1000)
                         }else{
                             switch(res.data.status){

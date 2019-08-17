@@ -4,16 +4,16 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-05 18:25:10
+ * @LastEditTime: 2019-08-01 17:16:25
  */
 import React from 'react'
 import {Button,Modal,List,Icon} from 'antd-mobile'
 import {connect} from 'react-redux'
-import {clearUserInfo,navBarText,asyncGetPersonSet} from '@/redux/action'
+import {clearUserInfo,navBarText,asyncGetPersonSet,clearRedux} from '@/redux/action'
 import mycss from './my.scss'
 import headImg from '@/static/img/headImg.jpg'
 import cookies from 'browser-cookies'
-@connect(state=>({state:state.loginSatate}),{clearUserInfo,navBarText,asyncGetPersonSet})
+@connect(state=>({state:state.loginSatate}),{clearUserInfo,navBarText,asyncGetPersonSet,clearRedux})
 class My extends React.Component {
     constructor(props) {
         super(props)
@@ -49,7 +49,7 @@ class My extends React.Component {
                 //初始化状态
                 console.log(this.props)
                 const {clearUserInfo,navBarText} = this.props;
-                clearUserInfo();
+                this.props.clearRedux({})
                 navBarText('职位')
                 cookies.erase('userid')
                 this.props.history.replace('/login');
@@ -75,6 +75,7 @@ class My extends React.Component {
     render() {
         const {navlink,name} = this.state;
         const {type,company} = this.props.state;
+        console.log(this.props)
         return (
             <div className='pagebox'>
                <div className={mycss.header}>
@@ -82,7 +83,7 @@ class My extends React.Component {
                         <div>
                             <p>{name}</p>
                             {
-                                type === 'worker' ? (<p>我的在线简历 ></p>):(<p>公司:{company[0]}</p>)
+                                type === 'worker' ? (<p onClick={()=>this.goMyOfView('/onlineCV')}>我的在线简历 ></p>):(<p>公司:{company[0]}</p>)
                             }  
                         </div>
                         <div onClick={this.myInfo}>

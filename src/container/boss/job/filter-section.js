@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: tll
+ * @Date: 2019-06-22 10:25:51
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2019-06-22 10:25:51
+ */
 //职位筛选
 export default [
     {

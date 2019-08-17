@@ -22,8 +22,10 @@ html{
 body, button, input, select, textarea {
     font: 18px/1.5 '黑体', Helvetica, sans-serif;
 }
-h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100%; }
-
+ button, input, select, textarea { font-size: 100%; }
+span{
+  font-size:16px;
+}
 /** 重置列表元素 - reset the list element **/
 ul, ol { list-style: none; }
 

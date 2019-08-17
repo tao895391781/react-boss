@@ -4,11 +4,11 @@
  * @Author: tll
  * @Date: 2019-06-28 15:18:58
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-30 15:34:10
+ * @LastEditTime: 2019-07-11 15:41:26
  */
 const express = require('express');
 const router = express.Router();
-const model = require('../mongo-model/model');
+const model = require('../../mongo-model/model');
 const User = model.getModel('user')
 router.post('/',(req,res)=>{
     console.log(req.cookies);

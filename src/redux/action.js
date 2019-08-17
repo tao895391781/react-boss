@@ -1,6 +1,14 @@
-import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB} from  './action-type'
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: tll
+ * @Date: 2019-05-22 14:02:21
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2019-08-14 11:06:57
+ */
+import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB,SAVEONLINECV,CLEARREDUX} from  './action-type'
 import axios from 'axios';
-import {getjoblist,writeinfo,getinfo,postBossAddJob,getBossAddJob} from '@/api.js'
+import {getjoblist,writeinfo,getinfo,postBossAddJob,getBossAddJob,updateBossAddJob,deleteBossAddJob,updateAddHopeJob,getOnlinecv,getEmployee} from '@/api.js'
 //顶部导航文字显示部分
 export const navBarText = (data)=>{
     return {type:NAVBARTEXT,data}
@@ -30,34 +38,21 @@ export const JobList = (data)=>{
 export const ifJobEnd = (data)=>{
     return {type:IFJOBEND,data}
 }
+//清空redux
+export const clearRedux = (data)=>{
+    return {type:CLEARREDUX,data}
+}
 // 异步获取职位
-export const getJobList = (page,show,hide,ifrefresh,showrefresh)=>{
+export const getJobList = (page)=>{
     console.log('异步获取职位列表')
-    show();
-    return (
-        dispatch=>{
+            return new Promise((resolve,reject)=>{
                 axios.get(getjoblist+`?page=${page}`).then(res=>{     
                     console.log(res.data);
-                    if(showrefresh) showrefresh();
-                    if(res.data.joblist.length !== 0){
-                        dispatch(JobList({
-                            data:res.data.joblist,
-                            page,
-                            ifrefresh
-                        }));
-                    }
-                    if(res.data.less){
-                        dispatch(ifJobEnd(true))
-                    }else{
-                        dispatch(ifJobEnd(false))
-                    }
-                    hide()
+                    resolve(res.data)
                 }).catch(err=>{
                     console.log(err)
-                    dispatch(errMsg('服务器出错了')) 
-                })   
-        }
-    )
+                })
+            })   
 }
 //保存个人设置
 export const savePersonSet = (data)=>{
@@ -108,17 +103,94 @@ export const asyncGetBossJob = (username)=>{
             return new Promise((resolve,reject)=>{
                 axios.get(`${getBossAddJob}?username=${username}`).then(res=>{
                     console.log(res.data);
-                    dispatch(saveBossJob(res.data.jobList));
+                    dispatch(saveBossJob(res.data.joblist));
                     resolve(res.data)
                 })
             })
         }
     )
 }
+//创建boss创建的职位
 export const asyncPostBossJob = (postdata)=>{
+    return (
+        dispatch=>{
+                return new Promise((resolve,reject)=>{
+                axios.post(postBossAddJob,postdata).then(res=>{
+                    resolve(res.data);
+                })
+            })
+        }
+    )  
+}
+//更新boss创建的职位
+export const asyncUpdateBossJob = (postdata)=>{
+    return (
+        dispatch=>{
+            return new Promise((resolve,reject)=>{
+                axios.post(updateBossAddJob,postdata).then(res=>{
+                    console.log(res.data)
+                    resolve(res.data)
+                })
+            })
+        }
+    )
+}
+//删除boss创建的职位
+export const asyncDeleteBossJob = (postdata)=>{
+    return (
+        dispatch=>{
+            return new Promise((resolve,reject)=>{
+                axios.post(deleteBossAddJob,postdata).then(res=>{
+                    console.log(res.data)
+                    resolve(res.data)
+                })
+            })
+        }      
+    )
+}
+//添加职业期望
+export const asyncAddHopeJob = (postdata)=>{
+                return new Promise((resolve,reject)=>{
+                    axios.post(updateAddHopeJob,postdata).then(res=>{
+                        console.log(res.data)
+                        resolve(res.data)
+                    })
+                }
+            )
+}
+// const saveOnlinecv = (data)=>{
+//     return {type:SAVEONLINECV,data}
+// }
+//异步获取牛人在线简历
+export const asyncGetonlinecv = (param)=>{
+    return (
+        dispatch=>{
+            return new Promise((resolve,reject)=>{
+        axios.get(getOnlinecv+`?username=${param}`).then(res=>{
+            resolve(res.data.onlinecv)
+        })
+        .catch(err=>{
+
+        })
+    })
+        }
+    )  
+}
+//获取所有的牛人求职职位
+export const asyncGetEmployee = (page)=>{
     return new Promise((resolve,reject)=>{
-        axios.post(postBossAddJob,postdata).then(res=>{
-            resolve(res.data);
+        axios.get(getEmployee+`?page=${page}`).then(res=>{
+            console.log(res.data);
+            resolve(res.data)
+        })
+    })
+}
+//获取个人信息
+export const asyncGetWorkerInfo = (username)=>{
+    return new Promise((resolve,reject)=>{
+        axios.get(getinfo + `?username=${username}`).then(res=>{
+            console.log(res.data);
+            resolve(res.data)
         })
     })
 }

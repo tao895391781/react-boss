@@ -4,16 +4,19 @@
  * @Author: tll
  * @Date: 2019-05-22 14:02:39
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-04 09:34:11
+ * @LastEditTime: 2019-08-02 10:44:19
  */
 
 import {combineReducers} from 'redux'
-import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET} from './action-type'
+import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN
+    ,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB,SAVEONLINECV,NAVLIST,CLEARREDUX} from './action-type'
 // 导航栏的文字
 const navBarText = (state='职位',action)=>{
     switch(action.type){
         case NAVBARTEXT:
         return action.data
+        case CLEARREDUX:
+            return '职位';
         default :
             return state;
     }
@@ -23,6 +26,8 @@ const showBack = (state = true,action)=>{
     switch(action.type){
         case SHOWBACK:
             return action.data
+        case CLEARREDUX:
+            return true;
         default:
             return state;
     }
@@ -31,44 +36,54 @@ const ifgetjobend = (state = false,action)=>{
     switch(action.type){
         case IFJOBEND:
             return action.data
+            case CLEARREDUX:
+            return false;
         default:
             return state
     }
 }
 // 保存用户信息
-const userInfo = {
+const workInfo = {
     username:'',
     isAuth:false,
-    name:'',
     headImg:'',
+    name:'',
     sex:'',
     workTime:'2018-08-08',
-    birth:'2000-01-01',
     wxNum:'',
-    myAdvantage:'',
-    company:'',
+    birth:'2000-01-01',
+    myAdvantage:''
+}
+const bossInfo = {
+    username:'',
+    isAuth:false,
+    headImg:'',
+    name:'',
+    company:[],
     myJob:'',
     myEmail:''
 }
-const loginSatate =(state = userInfo,action)=>{
+const loginSatate =(state = workInfo,action)=>{
     switch(action.type){
         case SUCCESS_LOGIN:
-            console.log(action.data)
             return {...state,...action.data,isAuth:true}
         case SAVEPERSONSET:
             return {...state,...action.data}
         case CLEAR_LOGIN:
-            console.log('-----清除信息')
-            return userInfo;
+            return state;
+        case CLEARREDUX:
+            return workInfo;
         default:
             return state
     }
 }
 // 获取职位列表
-const getJoblist = (state = {data:[],page:0,ifrefresh:''},action)=>{
+const getJoblist = (state = [],action)=>{
     switch(action.type){
         case JOBLIST:
-            return {...action.data}
+            return action.data
+            case CLEARREDUX:
+            return [];
         default:
             return state;
     }
@@ -78,10 +93,22 @@ const ifgetnewjob = (state = 0,action)=>{
     switch(action.type){
         case IFGETNEWJOB:
             return action.data
+            case CLEARREDUX:
+            return 0;
             default:
             return state;
     }
 }
+const bossCreateJob = (state = [],action)=>{
+    switch(action.type){
+        case SAVEBOSSADDJOB:
+            return action.data
+            case CLEARREDUX:
+            return [];
+        default:
+             return state;
+    }
+} 
 
 const reducers = combineReducers({
     navBarText,
@@ -90,5 +117,6 @@ const reducers = combineReducers({
     getJoblist,
     ifgetnewjob,
     ifgetjobend,
+    bossCreateJob,
 })
 export default reducers;

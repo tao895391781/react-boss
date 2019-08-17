@@ -1,0 +1,43 @@
+.listHeader{
+    h3{
+        font-size: .2rem;
+        color:#000;
+    }
+    p{
+        color:#9e9e9e;
+        padding-top: .05rem;
+        font-size: .15rem;
+    }
+}
+//占位符的标题
+.placeHolder{
+    font-size:.16rem;
+    color:#9e9e9e;
+}
+//浅色的标题
+.tintTitle{
+    font-size:.16rem;
+    color:#888;
+}
+//深色的标题
+.deepTitle{
+    font-size:.16rem;
+    color:#333; 
+}
+//正文文字样式
+.mainText{
+    font-size:.18rem;
+    color:#000;
+}
+.delBtn{
+    width:40%;
+    color:#108ee9;
+}
+.saveBtn{
+    width:50%;
+}
+.btnDiv{
+    display:flex;
+    justify-content: space-around;
+    margin:.1rem 0;
+}

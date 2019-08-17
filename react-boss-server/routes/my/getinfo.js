@@ -4,11 +4,11 @@
  * @Author: tll
  * @Date: 2019-06-29 11:00:23
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-29 15:35:58
+ * @LastEditTime: 2019-07-11 15:41:12
  */
 const express = require('express');
 const router = express.Router();
-const model = require('../mongo-model/model');
+const model = require('../../mongo-model/model');
 const User = model.getModel('user')
 router.get('/',(req,res)=>{
     let username = req.param('username')

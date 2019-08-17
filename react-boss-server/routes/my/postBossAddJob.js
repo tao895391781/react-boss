@@ -4,11 +4,11 @@
  * @Author: tll
  * @Date: 2019-07-05 14:24:23
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-05 18:29:08
+ * @LastEditTime: 2019-07-11 15:41:16
  */
 const express = require('express');
 const router = express.Router();
-const model = require('../mongo-model/model');
+const model = require('../../mongo-model/model');
 const BossJob = model.getModel('bossJob')
 router.post('/',(req,res)=>{
     console.log(req.body);

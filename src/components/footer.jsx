@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 11:20:58
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-06-29 14:19:51
+ * @LastEditTime: 2019-08-01 14:50:51
  */
 import React from 'react'
 import footercss from './footer.scss'
@@ -20,10 +20,11 @@ class Footer extends React.Component {
         let {navlist} = this.props;
         let navWidth= (100 / navlist.length).toFixed(2);
         const {pathname} = this.props.history.location
+        let navlist_=  navlist.filter(v=>v.hidden)
         return (
                 <ul className = {footercss['footer-box']}>
                     {
-                        navlist.map((item,index)=>{
+                        navlist_.map((item,index)=>{
                             return (
                                 <li key={index} style={{"width":navWidth +'%'}} 
                                 onClick={()=>this.navlink(item)}
