@@ -10,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 const model = require('../../../mongo-model/model');
 const WorkerOnlineCV = model.getModel('workerOnlineCV')
+console.log(111)
 router.post('/',(req,res)=>{
     console.log(req.body)
     const {username,type,data,ifEdit} = req.body;
