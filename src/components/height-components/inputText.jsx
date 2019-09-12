@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-08-14 16:23:52
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-14 18:32:27
+ * @LastEditTime: 2019-08-23 18:22:46
  */
 import React from 'react'
 import { CSSTransition } from 'react-transition-group'
@@ -23,7 +23,12 @@ export default function InputText(Wrapper,data){
                     }
                 } 
                 componentDidMount(){
-                    console.log(this.props)
+                    console.log(this.props);
+                    if(this.props.location.state){
+                        this.setState({
+                            data:this.props.location.state.edu
+                        })
+                    }
                 }
                 //退出/进入 修改
                 exitWxorName = (flag,target)=>{
@@ -55,7 +60,9 @@ export default function InputText(Wrapper,data){
                         exitWxorName:this.exitWxorName,
                         sureWxorName:this.sureWxorName,
                         goback:this.goback,
-                        data:this.state.data
+                        data:this.state.data,
+                        ...this.props,
+                        type:this.props.location.state ? {type:'update',_id:this.state.data._id}:{type:'add'}
                     }
                     const {showView,clickValue} = this.state
                     return (

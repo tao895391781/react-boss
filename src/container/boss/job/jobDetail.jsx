@@ -4,16 +4,16 @@
  * @Author: tll
  * @Date: 2019-08-10 15:39:47
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-04 16:29:40
+ * @LastEditTime: 2019-09-04 16:31:22
  */
 import React from 'react'
 import {Card,WhiteSpace,List,WingBlank,Button} from 'antd-mobile'
 import {asyncGetWorkerInfo} from '@/redux/action'
 import SelfNavBar from '@/components/selfNavBar'
 import {getWorkTime} from '@/util'
-import employeeDetailCSS from './employeeDetail.scss'
+import employeeDetailCSS from '@/container/boss/employee/employeeDetail.scss'
 import imgSrc from '@/static/img/headImg.jpg'
-class EmployeeDetail extends React.Component {
+class JobDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -34,38 +34,34 @@ class EmployeeDetail extends React.Component {
         const {info} = this.state
         const job = this.props.location.state
         const {_id} = this.props.location.state
-        job.workcity.forEach((v,index,arr)=>{
+        console.log(this.props.location.state)
+        job.address.forEach((v,index,arr)=>{
             if(v.label === '北京' || v.label === '天津'|| v.label === '上海'|| v.label === '重庆' ){
                 arr.splice(1,1)
             }
         })
         return (
             <div className='flexBox'>
-                <SelfNavBar navBarText ='牛人详情' showBack = {true}></SelfNavBar>  
+                <SelfNavBar navBarText ='职位详情' showBack = {true}></SelfNavBar>  
                 <div className='flex-container'>
                     <WhiteSpace />
                         <Card className={employeeDetailCSS['card-border']}>
-                            <Card.Header title={<h3>{job.hopeJob}</h3>}
-                                extra={<span style={{color:'#108ee9',fontSize:'20px'}}>{job.workmoney.join('-')}</span>}>
+                            <Card.Header title={<h3>{job.jobName}</h3>}
+                                extra={<span style={{color:'#108ee9',fontSize:'20px'}}>{job.red}</span>}>
                             </Card.Header>
                             <Card.Footer 
                             content={
                                 <p>
                                     <i className='iconfont icondingwei'></i>&nbsp;
                                     {
-                                        job.workcity.map((city,index)=><span key={index}>{city.label}{index !== job.workcity.length -1 && <span>·</span>}</span>)
+                                        job.address.map((city,index)=><span key={index}>{city.label}{index !== job.address.length -1 && <span>·</span>}</span>)
                                     }
                                     &nbsp;&nbsp;
                                     <i className='icongongzuojingyan iconfont'></i>
-                                    <span>{getWorkTime(info.workTime)}年</span>
+                                    <span>{job.workTime}年</span>
                                     &nbsp;&nbsp;
-                                    {
-                                        info.mostMajor && (<>
-                                            <i className='iconedu-line iconfont'></i>
-                                            <span>{info.mostMajor}</span>
-                                            </>
-                                        ) 
-                                    }  
+                                    <i className='iconedu-line iconfont'></i>
+                                    <span>{job.edu[0].label}</span>
                                 </p>}>
                             </Card.Footer>
                         </Card>
@@ -78,10 +74,10 @@ class EmployeeDetail extends React.Component {
                         </List>
                         <WingBlank>
                             <WhiteSpace />
-                                <h4>他的优势</h4>
+                                <h4>职位详情</h4>
                             <WhiteSpace />
                             <p className={employeeDetailCSS['advantage']}>
-                                {info.myAdvantage}
+                                {job.skillAsk}
                             </p>
                         </WingBlank>
                     </div>
@@ -93,4 +89,4 @@ class EmployeeDetail extends React.Component {
         )
     }
 }
-export default EmployeeDetail
+export default JobDetail

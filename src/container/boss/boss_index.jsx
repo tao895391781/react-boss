@@ -4,12 +4,12 @@
  * @Author: tll
  * @Date: 2019-05-16 11:32:25
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-01 17:28:09
+ * @LastEditTime: 2019-09-12 17:53:28
  */
 import React from 'react'
-import {Switch,Route,Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {navBarText,showBack} from '@/redux/action'
+import {getChatList,reviceChatInfo,asyncSaveSocket} from '@/redux/chat.js'
 import Footer from '@/components/footer'
 import SelfNavBar from '@/components/selfNavBar'
 import Job from '@/container/boss/job/job'
@@ -22,7 +22,7 @@ import bosscss from '@/container/boss/boss-index.scss'
 const mapStatetoProps = (state) =>{
     return {state:state}
 }
-const actionCreators = {navBarText,showBack};
+const actionCreators = {navBarText,showBack,getChatList,reviceChatInfo};
 @connect(mapStatetoProps,actionCreators)
 class Boss_index extends React.PureComponent {
     constructor(props) {
@@ -74,9 +74,15 @@ class Boss_index extends React.PureComponent {
            this.props.history.replace('/login') 
            return;
         }
-        console.log(this.props);
         const {showBack} = this.props;
+        const {username} = this.props.state.loginSatate
         showBack(false);
+        asyncSaveSocket().then(data=>{
+            console.log(data)
+            this.props.getChatList(data.socket,username)
+            this.props.reviceChatInfo(data.socket);//应该只调用一次
+        })
+        
     }
     componentWillUnmount(){
         console.log('boss_index卸载'); 
@@ -89,19 +95,20 @@ class Boss_index extends React.PureComponent {
     }
     /* 组件渲染 */
     render() {
-        console.log('render')
+        console.log(this.props)
         const {navlist} = this.state
         const {navBarText,showBack} = this.props.state;
+        const {unread} = this.props.state.chat
         return (
             <div className ='flexBox'>
                 <header>
                     <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
                 </header>
                 <div className = 'flex-container'> 
-                    <BossRouter  navlist = {navlist} type = {this.props.state.loginSatate.type}/>
+                    <BossRouter  navlist = {navlist}  type = {this.props.state.loginSatate.type}/>
                 </div>
                 <div className = {bosscss.footer}>
-                    <Footer navlist = {navlist} setNavBarText = {(text)=>this.setNavBarText(text)}></Footer>
+                    <Footer navlist = {navlist} unread = {unread} setNavBarText = {(text)=>this.setNavBarText(text)}></Footer>
                 </div>
             </div>
         )

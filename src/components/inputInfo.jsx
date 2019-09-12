@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-08-14 16:52:44
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-15 10:56:32
+ * @LastEditTime: 2019-08-23 14:19:33
  */
 import React from 'react'
 import {NavBar,Icon,InputItem,List,Button,TextareaItem} from 'antd-mobile'
@@ -53,10 +53,7 @@ class WxName extends React.Component {
                         ):(<InputItem type='text' 
                             {...getFieldProps('value')}
                             onBlur={this.blur} />)
-                    }
-                    
-
-                    
+                    } 
                 </List>  
                 
             </div>

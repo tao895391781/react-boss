@@ -4,13 +4,14 @@
  * @Author: tll
  * @Date: 2019-05-22 14:02:39
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-02 10:44:19
+ * @LastEditTime: 2019-09-12 17:52:20
  */
 
 import {combineReducers} from 'redux'
 import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN
     ,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB,SAVEONLINECV,NAVLIST,CLEARREDUX} from './action-type'
 // 导航栏的文字
+import {chat} from './chat'
 const navBarText = (state='职位',action)=>{
     switch(action.type){
         case NAVBARTEXT:
@@ -52,16 +53,8 @@ const workInfo = {
     workTime:'2018-08-08',
     wxNum:'',
     birth:'2000-01-01',
-    myAdvantage:''
-}
-const bossInfo = {
-    username:'',
-    isAuth:false,
-    headImg:'',
-    name:'',
-    company:[],
-    myJob:'',
-    myEmail:''
+    myAdvantage:'',
+    mostHightEdu:''
 }
 const loginSatate =(state = workInfo,action)=>{
     switch(action.type){
@@ -118,5 +111,6 @@ const reducers = combineReducers({
     ifgetnewjob,
     ifgetjobend,
     bossCreateJob,
+    chat,
 })
 export default reducers;

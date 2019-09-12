@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 15:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-05-26 15:20:06
+ * @LastEditTime: 2019-09-11 15:38:56
  */
 const createError = require('http-errors');
 const express = require('express');
@@ -12,21 +12,23 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const registerRouter = require('./routes/register');
-const usersRouter = require('./routes/users');
-const loginRouter = require('./routes/login')
-const getjoblistRouter = require('./routes/job/getjoblist')
-const setJobareaRouter = require('./routes/job/setJobarea');
-const writeInfoRouter = require('./routes/my/writeinfo')
-const getinfoRouter = require('./routes/my/getinfo')
-const getcompanyRouter = require('./routes/my/search-company')
-const postBossAddJobRouter = require('./routes/my/postBossAddJob')
-const getBossAddJobRouter = require('./routes/my/getBossAddJob')
-const updateBossAddJobRouter = require('./routes/my/updateBossAddJob')
-const deleteBossAddJobRouter = require('./routes/my/delBossAddJob')
-const updateAddHopeJobRouter = require('./routes/my/employee/addHopeJob')
-const getOnlinecvRouter = require('./routes/my/employee/getOnlinecv')
-const getEmployeeRouter = require('./routes/job/getEmployee')
+const registerRouter = require('./router/register');
+const usersRouter = require('./router/users');
+const loginRouter = require('./router/login')
+const getjoblistRouter = require('./router/job/getjoblist')
+const setJobareaRouter = require('./router/job/setJobarea');
+const writeInfoRouter = require('./router/my/writeinfo')
+const getinfoRouter = require('./router/my/getinfo')
+const getcompanyRouter = require('./router/my/search-company')
+const postBossAddJobRouter = require('./router/my/postBossAddJob')
+const getBossAddJobRouter = require('./router/my/getBossAddJob')
+const updateBossAddJobRouter = require('./router/my/updateBossAddJob')
+const deleteBossAddJobRouter = require('./router/my/delBossAddJob')
+const updateAddHopeJobRouter = require('./router/my/employee/addHopeJob')
+const getOnlinecvRouter = require('./router/my/employee/getOnlinecv')
+const getEmployeeRouter = require('./router/job/getEmployee')
+const getUserMsgListRouter  = require('./router/chat/getUserMsgList.js')
+const getAllChatRouter = require('./router/chat/getAllChat')
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,7 +39,7 @@ app.all("*",function(req,res,next){
     //设置允许跨域的域名，*代表允许任意域名跨域 
     console.log('设置跨域');
     // http://127.0.0.1:8080
-    res.header("Access-Control-Allow-Origin","http://192.168.1.110:3000"); 
+    res.header("Access-Control-Allow-Origin","http://192.168.1.114:3000"); 
     //允许的header类型 
     res.header("Access-Control-Allow-Headers","content-type");
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -64,6 +66,8 @@ app.use('/deleteBossAddJob',deleteBossAddJobRouter)
 app.use('/updateAddHopeJob',updateAddHopeJobRouter)
 app.use('/getOnlinecv',getOnlinecvRouter)
 app.use('/getEmployee',getEmployeeRouter)
+app.use('/getUserMsgList',getUserMsgListRouter)
+app.use('/getAllChat',getAllChatRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

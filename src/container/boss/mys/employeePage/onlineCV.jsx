@@ -4,19 +4,20 @@
  * @Author: tll
  * @Date: 2019-07-14 10:27:38
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-14 15:29:17
+ * @LastEditTime: 2019-08-31 11:01:08
  */
 import React from 'react'
-import {NavBar,Icon,Card,WingBlank,WhiteSpace,List,Button} from 'antd-mobile'
+import {NavBar,Icon,Card,WingBlank,WhiteSpace,List} from 'antd-mobile'
 import HeightComponentMixFun from '@/components/height-components/mixFunction'
 import { connect } from 'react-redux';
 import {getWorkTime,getOld} from '@/util'
 import headImg from '@/static/img/headImg.jpg'
 import onlineCV from './onlineCV.scss'
 import PickerSelect from '@/components/my-info/pickerSelect'
-import {asyncAddHopeJob,asyncGetonlinecv} from '@/redux/action'
+import {asyncAddHopeJob,asyncGetonlinecv,asyncSavePersonSet} from '@/redux/action'
 import InitScroll from '@/selfScroll'
-@connect(state=>({state:{loginSatate:state.loginSatate,onlinecv:state.onlinecv}}),{asyncAddHopeJob,asyncGetonlinecv})
+import {eduList} from '@/data'
+@connect(state=>({state:{loginSatate:state.loginSatate,onlinecv:state.onlinecv}}),{asyncGetonlinecv,asyncSavePersonSet})
 class OnlineCV extends React.Component {
     constructor(props) {
         super(props)
@@ -37,11 +38,12 @@ class OnlineCV extends React.Component {
             }],
             selectvalue:[],
             hopeJoblist:[],
+            eduExplist:[],
+            mostEdulist:''
         }
     }
-    componentDidUpdate(){
-        console.log(111)
-        InitScroll(this.wrapper).refresh()
+    componentDidUpdate(prevProps,prevState){
+        InitScroll(this.wrapper).refresh();   
     }
     componentDidMount(){
         const {username} = this.props.state.loginSatate
@@ -49,11 +51,35 @@ class OnlineCV extends React.Component {
             console.log(data);
             this.setState({
                 selectvalue:data.jobStatus ? [data.jobStatus]:["离职-随时到岗"],
-                hopeJoblist:data.jobHope
+                hopeJoblist:data.jobHope || [],
+                eduExplist:data.eduExp || []
+            });
+            // 判断最高学历
+            let weight = 0;
+            (data.eduExp && data.eduExp.length > 0) && data.eduExp.forEach(edu=>{
+                eduList.forEach(edu1=>{
+                    if(edu.edu[0] === edu1.value){
+                        if(edu1.weight > weight){
+                            weight = edu1.weight;
+                            this.setState({
+                                mostEdulist:edu1.value
+                            });
+                            //将最高学历添加到我的用户个人信息里面去
+                            const {username} = this.props.state.loginSatate
+                            let postdata = {
+                                username,
+                                type:'mostMajor',
+                                data:edu1.value,
+                                single:true,
+                            }
+                            this.props.asyncSavePersonSet(postdata).then(data=>{
+                                console.log(data);
+                            }) 
+                        }
+                    }
+                })   
             })
         });
-        //初始化iscoll 
-        console.log(InitScroll(this.wrapper))
         InitScroll(this.wrapper)
     }
     goInfo = ()=>{
@@ -61,28 +87,33 @@ class OnlineCV extends React.Component {
     }
     selectOption = (v,label)=>{
         console.log(v);
-        this.setState({
-            [label]:v
-        });
         const {username} = this.props.state.loginSatate
         let postdata = {
             username,
             type:'jobStatus',
             data:v.join('')
         }
-        this.props.asyncAddHopeJob(postdata).then(data=>{
-            console.log(data)
+        asyncAddHopeJob(postdata).then(data=>{
+            console.log(data);
+            this.setState({
+                [label]:v
+            },()=>{
+                InitScroll(this.wrapper).refresh()
+            });
         })
     }
     //修改求职期望
     revisejobHope = (job)=>{
-        
         this.props.history.push({pathname:'/addJobHope',state:{job,length:this.state.hopeJoblist.length}})
+    }
+    //修改教育经历
+    reviseEduExp = (edu)=>{
+        this.props.history.push({pathname:'/addEduExp',state:{edu,length:this.state.eduExplist.length}})
     }
     render() {
         console.log(this.props)
         const {name,workTime,birth,myAdvantage} = this.props.state.loginSatate
-        const {jobStatus,selectvalue,hopeJoblist} = this.state
+        const {jobStatus,selectvalue,hopeJoblist,eduExplist,mostEdulist} = this.state
         const newProps = {
             data:{
                 data:jobStatus,
@@ -107,7 +138,10 @@ class OnlineCV extends React.Component {
                                     {
                                         birth && <><span>·</span><span>{getOld(birth)}岁</span></>  
                                     }
-                                    {/* <span>·</span> */}
+                                    {
+                                       mostEdulist && <><span>·</span><span>{mostEdulist}</span></>
+                                    }
+                                    
                                 </div>
                             </div>}
                                 extra = {<img src={headImg} className={onlineCV.img} alt='loading' />}
@@ -119,7 +153,8 @@ class OnlineCV extends React.Component {
                     </Card>
                     <WhiteSpace />
                     <PickerSelect {...newProps} text='求职状态' 
-                        selectOption = {(v)=>this.selectOption(v,'selectvalue')}/>
+                        selectOption = {(v)=>this.selectOption(v,'selectvalue')}>
+                    </PickerSelect>
                     <List renderHeader={()=>(
                         <>
                             <span className={onlineCV.titleStyle}>求职期望 
@@ -135,14 +170,29 @@ class OnlineCV extends React.Component {
                                 </List.Item>
                             )))
                         }
-                    </List> 
+                    </List>
                     <List renderHeader={()=>(
                         <>
-                            <span className={onlineCV.titleStyle}>教育经历
-                            </span>
-                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage('/addEduExp')}></i>
-                        </>)}>
+                            <span className={onlineCV.titleStyle}>教育经历</span>
+                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage()}></i>
+                        </>
+                        )}>
                     </List>
+                        {
+                            eduExplist.length === 0 ? (<p className={onlineCV.noDataStyle}>暂无教育经历</p>):(
+                                eduExplist.map(edu=>(
+                                    <Card key={edu._id} onClick={()=>this.reviseEduExp(edu)} className={onlineCV['card-bottom']}>
+                                        <Card.Header title={edu.school}
+                                            extra = {edu.time.join('-') + ' >'}>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            {edu.edu}·{edu.major}
+                                        </Card.Body>
+                                        <Card.Footer content={edu.schoolExp}></Card.Footer>
+                                    </Card>
+                                ))
+                            )
+                        }
                     <div className='scrollBottom'></div>
                 </WingBlank>
                 </div>

@@ -1,4 +1,11 @@
-#!/usr/bin/env node
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: tll
+ * @Date: 2019-05-26 15:20:07
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2019-09-04 11:16:27
+ */
 
 /**
  * Module dependencies.
@@ -7,6 +14,7 @@
 var app = require('../app');
 var debug = require('debug')('react-boss-server:server');
 var http = require('http');
+var WSchat = require('../wsChat')
 
 /**
  * Get port from environment and store in Express.
@@ -28,7 +36,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
+WSchat(server)
 /**
  * Normalize a port into a number, string, or false.
  */

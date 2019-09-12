@@ -158,7 +158,7 @@ class App extends React.Component{
                     axios.post(login,user).then(res=>{
                         console.log(res.data);
                         if(res.data.code === 1){
-                            Toast.loading('登录成功',0);
+                            Toast.loading('登录成功',0)
                             //localStorage保存用户名和密码
                             localStorage.setItem('loginInfo',JSON.stringify({username,pwd}))
                             this.timer = setTimeout(()=>{
@@ -181,7 +181,6 @@ class App extends React.Component{
                                         this.props.history.replace({pathname:'/boss'});
                                     }
                                 } 
-
                             },1000)
                         }else{
                             switch(res.data.status){

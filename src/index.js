@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-15 14:42:15
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-14 15:29:01
+ * @LastEditTime: 2019-09-12 18:13:03
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,6 +21,8 @@ import Info from '@/container/boss/mys/info'
 import JobManage from '@/container/boss/mys/bossPage/job-manage'
 import EmployeeDetail from '@/container/boss/employee/employeeDetail' 
 import AddEduExp from '@/container/boss/mys/employeePage/addEduExp'
+import Chat from '@/container/boss/employee/chat'
+import JobDetail from '@/container/boss/job/jobDetail'
 // import Notfound from '@/components/404'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import {persistor} from '@/redux/store'
@@ -39,7 +41,9 @@ const renderApp = ()=>{
                         <Route path='/onlineCV' component = {OnlineCV} />
                         <Route path='/addJobHope' component = {AddJobHope} />
                         <Route path='/employeeDetail' component = {EmployeeDetail} />
-                        <Route path='/addEduExp' component = {AddEduExp}  />>
+                        <Route path='/addEduExp' component = {AddEduExp}  />
+                        <Route path='/boss/chat/:username' component = {Chat}/>
+                        <Route path='/jobDetail' component = {JobDetail} />
                     </Switch>
                 </BrowserRouter> 
             </PersistGate>

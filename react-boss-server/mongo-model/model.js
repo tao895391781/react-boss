@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 16:08:03
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-15 14:30:38
+ * @LastEditTime: 2019-09-05 16:36:47
  */
 const mongoose  = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -30,6 +30,7 @@ const models = {
         wxNum:{type:String,require:true},
         birth:{type:String,require:true},
         myAdvantage:{type:String,require:true},
+        mostMajor:{type:String,require:true},
         //boss信息
         company:{type:Array,require:true},
         myJob:{type:String,require:true},
@@ -74,8 +75,16 @@ const models = {
     company:{
         name:{type:String,require:true},
         companyId:{type:Number,require:true}
+    },
+    //聊天信息
+    chat:{
+        chatid:{type:String,require:true},
+        from:{type:Number,require:true},
+        to:{type:Number,require:true},
+        content:{type:String,require:true},
+        createTime:{type:Number,default:new Date().getTime()},
+        read:{type:Boolean,default:false}
     }
-
 }
 for(let m in models){
     mongoose.model(m,new mongoose.Schema(models[m]))

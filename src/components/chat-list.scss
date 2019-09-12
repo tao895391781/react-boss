@@ -1,0 +1,55 @@
+.common{
+    width:65%;
+    margin:10px 0;
+    display: flex;
+    img{
+        width:.4rem;
+        height:.4rem;
+        border-radius: 5px;
+        margin:0 .1rem;
+    }
+    p{
+        border-radius: .02rem;
+        background:#fff;
+        padding:0 .1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        span{
+            padding:.05rem 0;
+        }
+    }
+}
+.chat-left{
+    p{
+        b{
+            position: absolute; 
+            left:-12px;
+            top:14px;
+            border-top:6px solid transparent;
+            border-right:6px solid #fff;
+            border-left:6px solid transparent;
+            border-bottom:6px solid transparent;
+        }
+    }
+}
+.chat-right{
+    justify-content:flex-end;
+    align-self: flex-end;
+    p{
+        background:#a9e97a;
+        b{
+            position: absolute; 
+            right:-12px;
+            top:14px;
+            border-top:6px solid transparent;
+            border-left:6px solid #a9e97a;
+            border-right:6px solid transparent;
+            border-bottom:6px solid transparent;
+        }
+    }
+}
+.head-right{
+    order:999;
+}

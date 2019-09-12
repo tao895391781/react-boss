@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-01 17:16:25
+ * @LastEditTime: 2019-09-12 17:03:09
  */
 import React from 'react'
 import {Button,Modal,List,Icon} from 'antd-mobile'
@@ -48,7 +48,7 @@ class My extends React.Component {
                 console.log('退出登录');
                 //初始化状态
                 console.log(this.props)
-                const {clearUserInfo,navBarText} = this.props;
+                const {navBarText} = this.props;
                 this.props.clearRedux({})
                 navBarText('职位')
                 cookies.erase('userid')

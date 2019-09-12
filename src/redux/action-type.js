@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: tll
+ * @Date: 2019-05-22 14:01:54
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2019-09-01 14:31:16
+ */
 export const NAVBARTEXT  = 'NAVBARTEXT';//顶部导航文字显示部分
 export const SHOWBACK = 'SHOWBACK';//导航栏的返回按钮是否显示
 export const ERRMSG = 'ERRMSG';//返回错误信息

@@ -4,13 +4,12 @@
  * @Author: tll
  * @Date: 2019-07-24 16:09:36
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-15 14:37:27
+ * @LastEditTime: 2019-08-25 16:57:21
  */
 const express = require('express');
 const router = express.Router();
 const model = require('../../../mongo-model/model');
 const WorkerOnlineCV = model.getModel('workerOnlineCV')
-console.log(111)
 router.post('/',(req,res)=>{
     console.log(req.body)
     const {username,type,data,ifEdit} = req.body;
@@ -27,13 +26,23 @@ router.post('/',(req,res)=>{
                     });
                 });
         }else{
-            //创建了在线简历，看是否添加了同种字段‘
+            //创建了在线简历，看是否添加了同种字段
             console.log(Object.keys(res1._doc))
             if(Object.keys(res1._doc).find(v=> v === type)){
-               if(type === 'jobHope'){
+               if(type === 'jobStatus' || type === 'mostMajor'){
+                    WorkerOnlineCV.update({},{[type]:data},{new:true},(err,res3)=>{
+                        if(err) throw new Error(err)
+                        res.json({
+                            msg:`更新${type}成功`,
+                            code:1
+                        })
+                    })   
+               }else{
+                    //执行更新操作----除了jobHope
                     //执行更新数组操作
                     if(ifEdit.type === 'update'){
-                        for(let i = 0;i<res1.jobHope.length;i++){
+                        console.log('更新')
+                        for(let i = 0;i<res1[type].length;i++){
                             if(res1[type][i]._id.toString() === ifEdit._id){
                                 res1[type][i] = Object.assign(res1[type][i],data)
                                 res1.markModified(type)
@@ -62,16 +71,7 @@ router.post('/',(req,res)=>{
                                         code:1
                                     })
                                 }); 
-                    }   
-               }else{
-                //执行更新操作----除了hopeJob
-                WorkerOnlineCV.update({},{[type]:data},{new:true},(err,res3)=>{
-                    if(err) throw new Error(err)
-                    res.json({
-                        msg:`更新${type}成功`,
-                        code:1
-                    })
-                })
+                    } 
                }
             }else{
                 //执行添加操作

@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-07-31 14:34:37
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-31 16:13:07
+ * @LastEditTime: 2019-09-05 16:25:43
  */
 import BScroll from 'better-scroll'
 

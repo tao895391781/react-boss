@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 15:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-02 14:35:03
+ * @LastEditTime: 2019-09-11 15:38:01
  */
 const express = require('express');
 const router = express.Router();
@@ -23,7 +23,7 @@ router.get('/', (req, res, next)=>{
                 joblist:[],
             });
         }
-        console.log('总职位:'+ count);
+        // console.log('总职位:'+ count);
         BossJob.find({})
         .sort({_id:-1})
         .skip(pageSize *(page-1))

@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-06-29 11:00:23
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-07-11 15:41:12
+ * @LastEditTime: 2019-09-11 15:38:11
  */
 const express = require('express');
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get('/',(req,res)=>{
     console.log('cookie',req.cookie)
     User.findOne({username},{__v:0,pwd:0,type:0,_id:0},(err,doc)=>{
         if(err) throw new Error(err)
-            console.log('doc',doc);
+            // console.log('doc',doc);
             res.json({
                 msg:'查找成功',
                 code:1,

@@ -4,38 +4,47 @@
  * @Author: tll
  * @Date: 2019-05-18 11:20:58
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-01 14:50:51
+ * @LastEditTime: 2019-09-06 14:32:07
  */
 import React from 'react'
 import footercss from './footer.scss'
+import {TabBar } from 'antd-mobile'
 import {withRouter} from 'react-router-dom'
 class Footer extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {   
+        this.state = {  
+            selectedPath:''
         }
         this.navlink = this.navlink.bind(this)
     }
+    componentDidMount(){
+        this.setState({
+            selectedPath:this.props.history.location.pathname
+        })
+    }
     render() {
-        let {navlist} = this.props;
-        let navWidth= (100 / navlist.length).toFixed(2);
-        const {pathname} = this.props.history.location
+        let {navlist,unread} = this.props;
         let navlist_=  navlist.filter(v=>v.hidden)
         return (
-                <ul className = {footercss['footer-box']}>
-                    {
-                        navlist_.map((item,index)=>{
-                            return (
-                                <li key={index} style={{"width":navWidth +'%'}} 
-                                onClick={()=>this.navlink(item)}
-                                className ={pathname === item.link ? footercss.navActive:''}>
-                                    <p><i className={`iconfont ${item.icon}`}></i></p>
-                                    <p><span>{item.text}</span></p>
-                                </li>
-                            )
-                        })  
-                    }
-                </ul>
+                <div className = {footercss['footer-box']}>
+                    <TabBar tintColor = '#108ee9'>
+                        {
+                            navlist_.map((item,index)=>(
+                                <TabBar.Item 
+                                    title={item.text}
+                                    key={index}
+                                    badge={item.text ==='消息' && unread}
+                                    selected = {this.state.selectedPath === item.link}
+                                    selectedIcon = {<i className={`iconfont ${item.icon}`} style={{color:'#108ee9'}}></i>}
+                                    icon={<i className={`iconfont ${item.icon}`}></i>}
+                                    onPress = {()=>{this.setState({selectedPath:item.link});this.navlink(item)}}
+                                    >
+                                </TabBar.Item>
+                            ))
+                        }
+                    </TabBar>
+                </div>
         )
     }
     navlink(item){

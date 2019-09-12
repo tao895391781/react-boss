@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-22 14:02:21
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-14 11:06:57
+ * @LastEditTime: 2019-08-24 11:13:18
  */
 import {NAVBARTEXT,SHOWBACK,SUCCESS_LOGIN,CLEAR_LOGIN,ERRMSG,JOBLIST,IFGETNEWJOB,IFJOBEND,SAVEPERSONSET,SAVEBOSSADDJOB,SAVEONLINECV,CLEARREDUX} from  './action-type'
 import axios from 'axios';
@@ -193,6 +193,10 @@ export const asyncGetWorkerInfo = (username)=>{
             resolve(res.data)
         })
     })
+}
+//保存牛人的最高学历
+export const saveMostHightEdu = (data)=>{
+    return {type:SAVEPERSONSET,data}
 }
 
 

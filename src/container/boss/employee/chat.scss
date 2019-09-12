@@ -1,0 +1,19 @@
+.chatBox{
+    flex:1;
+    background: #f2f2f2;
+    position: relative;
+    overflow: hidden;
+    ul{
+        flex-direction: column;
+        display: flex;
+   }
+}
+.btn-center{
+    position: absolute!important;
+    top:50%;
+    left:2%;
+    transform: translateY(-50%);
+}
+.chat-bgc{
+    background: #f2f2f2;
+}
