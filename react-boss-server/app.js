@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 15:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-11 15:38:56
+ * @LastEditTime: 2019-09-19 14:39:57
  */
 const createError = require('http-errors');
 const express = require('express');
@@ -27,8 +27,9 @@ const deleteBossAddJobRouter = require('./router/my/delBossAddJob')
 const updateAddHopeJobRouter = require('./router/my/employee/addHopeJob')
 const getOnlinecvRouter = require('./router/my/employee/getOnlinecv')
 const getEmployeeRouter = require('./router/job/getEmployee')
-const getUserMsgListRouter  = require('./router/chat/getUserMsgList.js')
+const getUserMsgListRouter  = require('./router/chat/getUserMsgList')
 const getAllChatRouter = require('./router/chat/getAllChat')
+const getOneToOneRouter = require('./router/chat/getOneToOne')
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -68,6 +69,7 @@ app.use('/getOnlinecv',getOnlinecvRouter)
 app.use('/getEmployee',getEmployeeRouter)
 app.use('/getUserMsgList',getUserMsgListRouter)
 app.use('/getAllChat',getAllChatRouter)
+app.use('/getOneToOne',getOneToOneRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

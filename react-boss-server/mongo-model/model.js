@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 16:08:03
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-05 16:36:47
+ * @LastEditTime: 2019-09-19 11:19:30
  */
 const mongoose  = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -79,10 +79,10 @@ const models = {
     //聊天信息
     chat:{
         chatid:{type:String,require:true},
-        from:{type:Number,require:true},
-        to:{type:Number,require:true},
+        from:{type:String,require:true},
+        to:{type:String,require:true},
         content:{type:String,require:true},
-        createTime:{type:Number,default:new Date().getTime()},
+        createTime:{type:Date,default:new Date().getTime()},
         read:{type:Boolean,default:false}
     }
 }

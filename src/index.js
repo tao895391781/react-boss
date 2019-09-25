@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-15 14:42:15
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-12 18:13:03
+ * @LastEditTime: 2019-09-16 18:20:59
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,14 +15,6 @@ import './index.css'
 import '@/static/font/iconfont.css'
 import App from '@/container/app';
 import Boss_index from '@/container/boss/boss_index'
-import OnlineCV from '@/container/boss/mys/employeePage/onlineCV'
-import AddJobHope from '@/container/boss/mys/employeePage/addJobHope'
-import Info from '@/container/boss/mys/info'
-import JobManage from '@/container/boss/mys/bossPage/job-manage'
-import EmployeeDetail from '@/container/boss/employee/employeeDetail' 
-import AddEduExp from '@/container/boss/mys/employeePage/addEduExp'
-import Chat from '@/container/boss/employee/chat'
-import JobDetail from '@/container/boss/job/jobDetail'
 // import Notfound from '@/components/404'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import {persistor} from '@/redux/store'
@@ -36,14 +28,6 @@ const renderApp = ()=>{
                         <Route path='/' exact  component = {App} />
                         <Route path='/login' exact  component = {App} />
                         <Route path='/boss'   component = {Boss_index} />
-                        <Route path='/info' component = {Info} />
-                        <Route path='/JobManage' component = {JobManage} />
-                        <Route path='/onlineCV' component = {OnlineCV} />
-                        <Route path='/addJobHope' component = {AddJobHope} />
-                        <Route path='/employeeDetail' component = {EmployeeDetail} />
-                        <Route path='/addEduExp' component = {AddEduExp}  />
-                        <Route path='/boss/chat/:username' component = {Chat}/>
-                        <Route path='/jobDetail' component = {JobDetail} />
                     </Switch>
                 </BrowserRouter> 
             </PersistGate>

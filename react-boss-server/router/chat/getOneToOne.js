@@ -1,18 +1,18 @@
 /*
- * @Descripttion: 获取新消息
+ * @Descripttion: 获取一对一
  * @version: 
  * @Author: tll
- * @Date: 2019-09-01 14:13:52
+ * @Date: 2019-09-19 11:42:53
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-19 11:42:38
+ * @LastEditTime: 2019-09-19 13:46:43
  */
 const express = require('express');
 const router = express.Router();
 const model = require('../../mongo-model/model');
 const Chat = model.getModel('chat')
 router.get('/',(req,res)=>{
-    const _id = req.param('_id')
-    Chat.find({$or:[{to:_id},{from:_id}]},{__v:0},(err,doc)=>{
+    const chatid= req.param('chatid')
+    Chat.find({chatid},{__v:0},(err,doc)=>{
         // console.log('获取的一对一聊天数据',doc)
         if(!err){
             res.json({

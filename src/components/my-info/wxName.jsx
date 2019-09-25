@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-06-27 09:54:05
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-14 16:49:49
+ * @LastEditTime: 2019-09-19 15:55:04
  */
 import React from 'react'
 import {NavBar,Icon,InputItem,List,Button} from 'antd-mobile'
@@ -22,13 +22,7 @@ class WxName extends React.Component {
         this.props.resivePersonInfo(getFieldValue('value'))  
         
     }
-    componentDidMount(){
-        const {value} = this.props;
-        const {setFieldsValue} = this.props.form 
-        setFieldsValue({
-            value:value.value
-        })
-        
+    componentDidMount(){   
     }
     render() {
         const {value,searchCompany,sureCompany,companyName} = this.props;

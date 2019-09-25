@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-16 11:32:25
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-12 17:53:28
+ * @LastEditTime: 2019-09-19 11:30:26
  */
 import React from 'react'
 import {connect} from 'react-redux'
@@ -12,11 +12,7 @@ import {navBarText,showBack} from '@/redux/action'
 import {getChatList,reviceChatInfo,asyncSaveSocket} from '@/redux/chat.js'
 import Footer from '@/components/footer'
 import SelfNavBar from '@/components/selfNavBar'
-import Job from '@/container/boss/job/job'
-import Employee from '@/container/boss/employee/employee'
-import Company from '@/container/boss/company/company'
-import Message from '@/container/boss/message/message'
-import My from '@/container/boss/mys/my'
+import {navlist,childRouter} from '@/router'
 import BossRouter from '@/components/bossSwitch'
 import bosscss from '@/container/boss/boss-index.scss'
 const mapStatetoProps = (state) =>{
@@ -28,41 +24,6 @@ class Boss_index extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
-            navlist:[{
-                    icon:'iconposition',
-                    text:'职位',
-                    link:'/boss/job',
-                    component:Job,
-                    hidden:props.state.loginSatate.type === 'worker'
-                   
-                },{
-                    icon:'iconzhaorencaixiangao',
-                    text:'招人',
-                    link:'/boss/employee',
-                    component:Employee,
-                    hidden:props.state.loginSatate.type === 'boss'
-                  
-                },{
-                    icon:'iconqiye-copy',
-                    text:'公司',
-                    link:'/boss/company',
-                    component:Company,
-                    hidden:true
-                }, 
-                {
-                    icon:'iconxiaoxi1',
-                    text:'消息',
-                    link:'/boss/message',
-                    component:Message,
-                    hidden:true
-                },
-                {
-                    icon:'iconIcon_wode',
-                    text:'我的',
-                    link:'/boss/my',
-                    component:My,
-                    hidden:true
-                }]
         }
     }
     /* 组件挂在完之后执行的初始化 */
@@ -75,14 +36,14 @@ class Boss_index extends React.PureComponent {
            return;
         }
         const {showBack} = this.props;
-        const {username} = this.props.state.loginSatate
+        const {_id} = this.props.state.loginSatate
         showBack(false);
         asyncSaveSocket().then(data=>{
             console.log(data)
-            this.props.getChatList(data.socket,username)
+            // data.socket.removeAllListeners();
+            this.props.getChatList(_id)
             this.props.reviceChatInfo(data.socket);//应该只调用一次
-        })
-        
+        }); 
     }
     componentWillUnmount(){
         console.log('boss_index卸载'); 
@@ -96,20 +57,33 @@ class Boss_index extends React.PureComponent {
     /* 组件渲染 */
     render() {
         console.log(this.props)
-        const {navlist} = this.state
         const {navBarText,showBack} = this.props.state;
         const {unread} = this.props.state.chat
+        const navlist_ = navlist(this.props.state.loginSatate.type);
+        //是否渲染底部和顶部
+        const bottomUrl = ['/boss/job','/boss/employee','/boss/company','/boss/message','/boss/my'];
+        const targetUrl = this.props.history.location.pathname;
+        let showFooterOrtopBar = bottomUrl.find(url=> url === targetUrl)
         return (
             <div className ='flexBox'>
-                <header>
-                    <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
-                </header>
+                {
+                   showFooterOrtopBar && (
+                        <header>
+                            <SelfNavBar navBarText = {navBarText} showBack = {showBack}></SelfNavBar>
+                        </header>
+                    )
+                }
                 <div className = 'flex-container'> 
-                    <BossRouter  navlist = {navlist}  type = {this.props.state.loginSatate.type}/>
+                    <BossRouter  navlist = {navlist_.concat(childRouter)}  type = {this.props.state.loginSatate.type}/>
                 </div>
-                <div className = {bosscss.footer}>
-                    <Footer navlist = {navlist} unread = {unread} setNavBarText = {(text)=>this.setNavBarText(text)}></Footer>
-                </div>
+                {
+                   showFooterOrtopBar && (
+                        <div className = {bosscss.footer}>
+                            <Footer navlist = {navlist_}  type = {this.props.state.loginSatate.type}
+                                unread = {unread} setNavBarText = {(text)=>this.setNavBarText(text)}></Footer>
+                        </div>
+                    )
+                }
             </div>
         )
     }

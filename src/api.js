@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-26 11:57:40
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-07 10:46:17
+ * @LastEditTime: 2019-09-19 14:33:02
  */
 const ip = {
     path:'http://192.168.1.114:4000'
@@ -26,3 +26,4 @@ export const getOnlinecv =       ip.path + '/getOnlinecv'    //获取在线简�
 export const getEmployee = ip.path +'/getEmployee'//获取所有的牛人求职职位
 export const getUserMsgList = ip.path +'/getUserMsgList'//获取聊天信息
 export const getAllChat = ip.path +'/getAllChat'//获取所有的聊天对象
+export const getOneToOne = ip.path + '/getOneToOne'//获取一对一的聊天信息

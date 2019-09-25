@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-12 17:03:09
+ * @LastEditTime: 2019-09-17 11:09:28
  */
 import React from 'react'
 import {Button,Modal,List,Icon} from 'antd-mobile'
@@ -13,6 +13,7 @@ import {clearUserInfo,navBarText,asyncGetPersonSet,clearRedux} from '@/redux/act
 import mycss from './my.scss'
 import headImg from '@/static/img/headImg.jpg'
 import cookies from 'browser-cookies'
+import sessionStorage from 'redux-persist/es/storage/session';
 @connect(state=>({state:state.loginSatate}),{clearUserInfo,navBarText,asyncGetPersonSet,clearRedux})
 class My extends React.Component {
     constructor(props) {
@@ -52,13 +53,14 @@ class My extends React.Component {
                 this.props.clearRedux({})
                 navBarText('职位')
                 cookies.erase('userid')
+                window.sessionStorage.clear();
                 this.props.history.replace('/login');
             }   
         },
       ]) 
     }
     myInfo(){
-        this.props.history.push({pathname:'/info',state:{from:'my'}})
+        this.props.history.push({pathname:'/boss/info',state:{from:'my'}})
     }
     componentDidMount(){
         //获取个人信息存在redux里面去
@@ -83,7 +85,8 @@ class My extends React.Component {
                         <div>
                             <p>{name}</p>
                             {
-                                type === 'worker' ? (<p onClick={()=>this.goMyOfView('/onlineCV')}>我的在线简历 ></p>):(<p>公司:{company[0]}</p>)
+                                type === 'worker' ? (<p onClick={()=>this.goMyOfView('/boss/onlineCV')}>
+                                我的在线简历 ></p>):(<p>公司:{company && company[0]}</p>)
                             }  
                         </div>
                         <div onClick={this.myInfo}>
@@ -105,7 +108,7 @@ class My extends React.Component {
                {
                    type === 'boss' && (
                         <List>
-                            <List.Item extra={<Icon type='right'></Icon>} onClick={()=>this.goMyOfView('/JobManage')}>发布/管理职位</List.Item>
+                            <List.Item extra={<Icon type='right'></Icon>} onClick={()=>this.goMyOfView('/boss/JobManage')}>发布/管理职位</List.Item>
                         </List>
                    )
                }

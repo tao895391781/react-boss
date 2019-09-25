@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-08-31 16:53:30
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-12 15:05:50
+ * @LastEditTime: 2019-09-19 14:37:50
  */
 import React from 'react'
 import {NavBar,Icon,List,TextareaItem,Button,Toast} from 'antd-mobile'
@@ -67,8 +67,9 @@ class Chat extends React.Component {
             });
             return;
         };
-        const from = this.props.state.loginSatate.username;
-        const to = parseInt(this.props.match.params.username);
+        console.log(this.props)
+        const from = this.props.state.loginSatate._id;
+        const to = this.props.match.params._id;
         const content = getFieldValue('content');
         const chatid = [from,to].sort().join('_');
         postChatInfo({from,to,content,chatid})
@@ -80,7 +81,10 @@ class Chat extends React.Component {
         const {getFieldProps} = this.props.form;
         const {msgList} = this.props.state.chat;
         console.log(msgList)
-        const from = this.props.state.loginSatate.username;
+        const from = this.props.state.loginSatate._id;
+        const to = this.props.match.params._id;
+        const chatid = [from,to].sort().join('_');
+        let msgList_ =  msgList.filter(msg=> msg.chatid === chatid)
         return (
             <div className='flexBox chatcss'>
                 <NavBar
@@ -93,10 +97,10 @@ class Chat extends React.Component {
                 <div className={ChatCSS.chatBox+' wrapperbox'} ref={ref=> this.wrapper = ref}>
                     <ul>
                         {
-                            msgList.map((msg,index)=>(
+                            msgList_.map((msg,index)=>(
                                 <ChatList key={index}
                                 content={msg.content}
-                                direction={parseInt(msg.from) === from ? 'right':'left'}></ChatList>
+                                direction={msg.from === from ? 'right':'left'}></ChatList>
                             ))
                         }
                     </ul>    

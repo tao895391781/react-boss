@@ -159,6 +159,8 @@ class App extends React.Component{
                         console.log(res.data);
                         if(res.data.code === 1){
                             Toast.loading('登录成功',0)
+                            //登录成功保存用户id
+                            sessionStorage.setItem('userId',res.data.info._id);
                             //localStorage保存用户名和密码
                             localStorage.setItem('loginInfo',JSON.stringify({username,pwd}))
                             this.timer = setTimeout(()=>{

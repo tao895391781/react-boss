@@ -505,9 +505,9 @@ class Info extends React.Component {
                         ):(
                             <>
                                 <ul>
-                                    <li>
+                                    <li className={infocss.headImg}>
                                         <h6>头像</h6>
-                                        <p><span>{info.headImg}</span></p>
+                                       <p>{bossInfo.headImg}</p>
                                     </li>
                                     <li  onClick={()=>{this.reviseWXname('name')}}>
                                         <h6>姓名</h6>

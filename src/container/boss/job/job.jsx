@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-04 16:19:31
+ * @LastEditTime: 2019-09-16 15:00:58
  */
 import React from 'react'
 import {Card,PullToRefresh,Tag,Icon} from 'antd-mobile'
@@ -297,7 +297,7 @@ class Job extends React.Component {
     renderRow(job,id,i){
         return (
             <div key={i} className={jobcss['job-box']}>
-                            <Card onClick={()=>this.props.history.push({pathname:'/jobDetail',state:{...job}})}>
+                            <Card onClick={()=>this.props.history.push({pathname:'/boss/jobDetail',state:{...job}})}>
                                 <Card.Header
                                     title={job.jobName} 
                                     extra={<span>{job.red}</span>}

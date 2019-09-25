@@ -4,20 +4,26 @@
  * @Author: tll
  * @Date: 2019-09-01 14:09:59
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-12 17:59:13
+ * @LastEditTime: 2019-09-19 14:33:26
  */
 import axios from 'axios'
 import io from 'socket.io-client'
-import {getUserMsgList,getAllChat} from '@/api'
+import {getUserMsgList,getAllChat,getOneToOne} from '@/api'
 const MSG_LIST = 'MSG_LIST'//获取聊天列表
 const MSG_RECE = 'MSG_RECE'//接受聊天列表
 const MSG_READ = 'MSG_READ'//未读的信息数量
-let WsSocket = {};
+let WsSocket = '';
 export const asyncSaveSocket = ()=>{
     const socket = io('ws://192.168.1.114:4000/')
         return new Promise((resolve,reject)=>{
         socket.on('connect',()=>{
-            console.log('socket.id--------------------------->',socket.id);
+            //socket连接的时候向服务端发送用户登录的id
+            let userStatus = {
+                userId:sessionStorage.getItem('userId'),
+                socketId:socket.id
+            }
+            socket.emit('login',userStatus);
+            console.log('socket.id------------------------>',socket.id);
             WsSocket = socket;
             resolve({
                 socket,
@@ -45,9 +51,9 @@ export const chat = (state=initState,action)=>{
 const chatList = (data)=>{
     return {type:MSG_LIST,data}
 }
-export const getChatList = (username)=>{
+export const getChatList = (_id)=>{
     return dispatch=>{
-        axios.get(`${getUserMsgList}?username=${username}`).then(res=>{
+        axios.get(`${getUserMsgList}?_id=${_id}`).then(res=>{
             if(res.data.code === 1){
                 console.log(res.data)
                 dispatch(chatList(res.data.msgList))
@@ -59,7 +65,14 @@ export const getChatList = (username)=>{
 export const postChatInfo = (postdata)=>{
     console.log(WsSocket)
     console.log(postdata)
-    WsSocket.emit('sendMsg',postdata);
+    if(WsSocket){
+        WsSocket.emit('sendMsg',postdata);
+    }else{
+        //如果刷新了，socket初始化，则重新获取
+        asyncSaveSocket().then(data=>{
+            data.socket.emit('sendMsg',postdata);
+        })
+    }
 }
 const reviceChat = (data)=>{
     return {type:MSG_RECE,data}
@@ -75,9 +88,9 @@ export const reviceChatInfo = (socket)=>{
     }  
 }
 //根据用户名获取所有的聊天对象
-export const getAllChatObj = (username)=>{
+export const getAllChatObj = (_id)=>{
     return new Promise((resolve,reject)=>{
-        axios.get(`${getAllChat}?username=${username}`).then(res=>{
+        axios.get(`${getAllChat}?_id=${_id}`).then(res=>{
             resolve(res.data)
         })  
     })  

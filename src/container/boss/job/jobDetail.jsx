@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-08-10 15:39:47
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-04 16:31:22
+ * @LastEditTime: 2019-09-19 10:53:38
  */
 import React from 'react'
 import {Card,WhiteSpace,List,WingBlank,Button} from 'antd-mobile'
@@ -82,7 +82,7 @@ class JobDetail extends React.Component {
                         </WingBlank>
                     </div>
                     <WingBlank>
-                        <Button type='primary' onClick={()=>{this.props.history.push({pathname:`/chat/${info.username}`,state:{name:info.name}})}}>立即沟通</Button>
+                        <Button type='primary' onClick={()=>{this.props.history.push({pathname:`/boss/chat/${info._id}`,state:{name:info.name}})}}>立即沟通</Button>
                     </WingBlank>
                     <WhiteSpace />
             </div>

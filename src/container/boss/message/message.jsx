@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 14:20:06
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-07 10:51:53
+ * @LastEditTime: 2019-09-19 15:03:01
  */
 import React from 'react'
 import {connect} from 'react-redux'
@@ -19,9 +19,9 @@ class Message extends React.Component {
     }
     componentDidMount(){
        console.log(this.props);
-       const {username} = this.props.state.loginSatate
-       getAllChatObj(username).then(data=>{
-            console.log(`获取${username}全部聊天对象`,data) 
+       const {_id} = this.props.state.loginSatate
+       getAllChatObj(_id).then(data=>{
+            console.log(`获取${_id}全部聊天对象`,data) 
        })
     }
     render() {

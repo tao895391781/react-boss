@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-05-18 11:20:58
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-09-06 14:32:07
+ * @LastEditTime: 2019-09-16 14:41:35
  */
 import React from 'react'
 import footercss from './footer.scss'
@@ -14,7 +14,7 @@ class Footer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {  
-            selectedPath:''
+            selectedPath:'',
         }
         this.navlink = this.navlink.bind(this)
     }
@@ -25,7 +25,8 @@ class Footer extends React.Component {
     }
     render() {
         let {navlist,unread} = this.props;
-        let navlist_=  navlist.filter(v=>v.hidden)
+        console.log(navlist)
+        const navlist_ = navlist.filter(nav=> nav.hidden)
         return (
                 <div className = {footercss['footer-box']}>
                     <TabBar tintColor = '#108ee9'>
@@ -50,7 +51,7 @@ class Footer extends React.Component {
     navlink(item){
         if(this.props.history.location.pathname !== item.link){
             this.props.history.push(item.link);
-             this.props.setNavBarText(item.text)
+            this.props.setNavBarText(item.text)
         } 
     }
 }

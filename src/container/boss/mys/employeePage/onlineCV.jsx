@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-07-14 10:27:38
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-31 11:01:08
+ * @LastEditTime: 2019-09-16 18:24:17
  */
 import React from 'react'
 import {NavBar,Icon,Card,WingBlank,WhiteSpace,List} from 'antd-mobile'
@@ -83,7 +83,7 @@ class OnlineCV extends React.Component {
         InitScroll(this.wrapper)
     }
     goInfo = ()=>{
-        this.props.history.push({pathname:'/info',state:{from:'onlineCV'}})
+        this.props.history.push({pathname:'/boss/info',state:{from:'onlineCV'}})
     }
     selectOption = (v,label)=>{
         console.log(v);
@@ -104,11 +104,11 @@ class OnlineCV extends React.Component {
     }
     //修改求职期望
     revisejobHope = (job)=>{
-        this.props.history.push({pathname:'/addJobHope',state:{job,length:this.state.hopeJoblist.length}})
+        this.props.history.push({pathname:'/boss/addJobHope',state:{job,length:this.state.hopeJoblist.length}})
     }
     //修改教育经历
     reviseEduExp = (edu)=>{
-        this.props.history.push({pathname:'/addEduExp',state:{edu,length:this.state.eduExplist.length}})
+        this.props.history.push({pathname:'/boss/addEduExp',state:{edu,length:this.state.eduExplist.length}})
     }
     render() {
         console.log(this.props)
@@ -159,7 +159,7 @@ class OnlineCV extends React.Component {
                         <>
                             <span className={onlineCV.titleStyle}>求职期望 
                             </span>
-                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage('/addJobHope')}></i>
+                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage('/boss/addJobHope')}></i>
                         </>)}> 
                         {
                             hopeJoblist.length === 0 ? (<p className={onlineCV.noDataStyle}>暂无求职期望</p>):
@@ -174,7 +174,7 @@ class OnlineCV extends React.Component {
                     <List renderHeader={()=>(
                         <>
                             <span className={onlineCV.titleStyle}>教育经历</span>
-                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage()}></i>
+                            <i className={'iconjia1 iconfont ' + onlineCV.btn} onClick = {()=>this.props.goPage('/boss/addEduExp')}></i>
                         </>
                         )}>
                     </List>

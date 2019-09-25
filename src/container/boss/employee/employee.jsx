@@ -4,7 +4,7 @@
  * @Author: tll
  * @Date: 2019-06-29 16:39:16
  * @LastEditors: sueRimn
- * @LastEditTime: 2019-08-31 17:25:43
+ * @LastEditTime: 2019-09-16 16:30:26
  */
 import React from 'react'
 import {Icon,PullToRefresh,Card,Tag,WhiteSpace} from 'antd-mobile'
@@ -20,7 +20,7 @@ class Employee extends React.Component {
     renderRow(job,id,i){
         return (
             <div key={i} className={jobcss['job-box']} 
-                    onClick = {()=>this.props.history.push({pathname:'/employeeDetail',state:job})}>
+                    onClick = {()=>this.props.history.push({pathname:'/boss/employeeDetail',state:job})}>
                     <WhiteSpace />
                             <Card>
                                 <Card.Header
